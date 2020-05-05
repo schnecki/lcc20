@@ -2,6 +2,7 @@
 \usepackage[OT1]{fontenc}
 \usepackage[utf8x]{inputenc}
 
+\usepackage{fullpage}
 \usepackage[hidelinks]{hyperref}
 \usepackage{xcolor}
 \usepackage{listings}
@@ -10,6 +11,9 @@
 \usepackage{stmaryrd}
 \usepackage{listings}
 \usepackage{array}
+\usepackage{algorithm}
+\usepackage{algpseudocode}% http://ctan.org/pkg/algorithmicx
+% \usepackage{algorithmic}
 \usepackage{textcomp}
 \usepackage{pifont}
 \usepackage{caption}
@@ -155,49 +159,43 @@ decomposition steps if required.
 % this on one hand does not mean it cannot be tried to automatically infer complexities. One tool
 % that is developed at the University of Innsbruck which does exactly this is
 % \tct~\cite{avanzini2016tct}. On the other hand this negative result also means that
-Nonetheless, the undecidability result~\cite{landi1992undecidability} directly infers that some sort
-of creativity, of human or artificial origin, is needed to be able to successfully execute static
-analysis on a broad variety of input programs. This creativity is usually refereed to as a
-\textit{strategy}, which is used to analyse the computer program. In \tct{} this is implemented by
-specifying a tree or forest of sequences of the considered methods in combination with the fraction
-of time given for each sub-strategy. However, as a successful analysis of a custom input program
-correlates with the specification of applied strategies it is difficult to build a compound strategy
-at compile time.
+Nonetheless, the undecidability result~\cite{landi1992undecidability} proves that some sort of
+creativity, regardless whether of human or artificial origin, is needed to be able to successfully
+execute static analysis on a broad variety of input programs. This creativity is usually refereed to
+as a \textit{strategy}, which is used to analyse the computer program. In \tct{} this is implemented
+by specifying a tree or simultaneously executed forest of sequences of the considered methods in
+combination with the fraction of time given for each sub-strategy. However, as a successful analysis
+of a custom input program correlates with the specification of applied strategies it is difficult to
+build a compound strategy at compile time.
 
 The research area of reinforcement learning tries to mimic human
 behavior~\cite{schneckenreither2020average}, and thus in some sense also creativity. Additionally,
-over the past years vast progress was reported in reinforcement learning, which have lead to
+over the past years vast progress was reported in reinforcement learning (RL), which has lead to
 astonishing results in the application of its algorithms to game-like domains, for instance
 chess~\cite{Silver17_MasteringChessAndShogiBySelfPlayWithAGeneralReinforcementLearningAlgorithm},
 Go~\cite{Silver16_MasteringTheGameOfGoWithDeepNeuralNetworksAndTreeSearch}, and various Atari
-games~\cite{Mnih15_HumanlevelControlThroughDeepReinforcementLearningb}. It is an optimisation
+games~\cite{Mnih15_HumanlevelControlThroughDeepReinforcementLearningb}. RL is an optimisation
 technique that stems from dynamic programming and tries to find the best stationary policy for a
 given problem~\cite{sutton1998introduction}. This policy is usually provided by assessing the states
-(or state-action pairs) of an underlying Markov Decision Process (MDP). The advantage of
-reinforcement learning over dynamic programming is that (i) the problem space is explored by an
-agent and thus only expectantly interesting parts of the problem space need to be assessed and (ii)
-the knowledge (acquisition) of transition probabilities becomes unnecessary as the states are
-evaluated by consecutively observed states solely\cite{sutton1998introduction}. Recently average
-reward adjusted discounted reinforcement learning has been shown to decrease the number of learning
-steps, leads to better output policies and in contrast to standard discounted reinforcement learning
-can be applied to tasks with non-zero average reward per step
-taken~\cite{schneckenreither2020average}. This latter allows specifying intermediate rewards, which
-also enables reinforcing more naturally, similar like humans reward their children with compliments,
-e.g\@. for making progress in a board game. 
+(or state-action pairs) of an underlying Markov Decision Process (MDP). The advantage of RL over
+dynamic programming is that (i) the problem space is explored by an agent and thus only expectantly
+interesting parts of the problem space need to be assessed and (ii) the knowledge (acquisition) of
+transition probabilities becomes unnecessary as the states are evaluated by consecutively observed
+states solely~\cite{sutton1998introduction}. Recently average reward adjusted discounted RL has been
+shown to decrease the number of learning steps, further it is capable of inferring better policies
+and in contrast to standard discounted RL can also be applied to tasks imposing a non-zero average
+reward per step taken~\cite{schneckenreither2020average}. The latter property enables specifying
+intermediate rewards and thus a more natural learning process, similar like humans reward their
+children with compliments for making progress in a board game, although the game has not come to an
+end.
 
-
-\MS[t]{RL paragraph, - recently many successful applications, - vast development, - immediate result,
-  - improve over time}
-
-
-gave further insights 
-
-Schneckenreither~\cite{schneckenreither2020average} have 
-
-
-Therefore, we propose to use reinforcement learning to introduce creativity for dynamic strategy
-building while executing \tct{}. This allows to build strategies according to the programs input
-characteristics.
+These enhancements in RL in combination with the fact that learned policies can easily be stored,
+improved over time and a lookup of their knowledge is immediate put themselves forward to be
+utilised as appropriate creativity mechanism in static code analysers.
+%
+Therefore, we propose to integrate reinforcement learning to introduce the required creativity for
+dynamic strategy building in \tct{}. This allows to build specialised strategies according to the
+programs input characteristics.
 %
 In the offline learning phase the agent accumulates knowledge on how to build strategies by
 executing a wide variety of input programs with different sequences of methods. It does so by
@@ -210,7 +208,7 @@ states accordingly~\cite{sutton1998introduction}.
 %
 Then, when \tct{} is executed, this knowledge, saved as an artificial neural network, is used to
 build a corresponding strategy that fits the input program. The artificial neural network ensures
-that the agent can generalise and thus also interpolate in case of unseen input.
+that the agent can generalise and thus also interpolate in case of unfamiliar input features.
 
 %
 % Furthermore, it can improve its knowledge after the initial learning phase, which ensures that it
@@ -250,6 +248,131 @@ instance, \MS[t]{todo paper} show that by combining \MS[t]{...}
 % interface\footnote{See http://colo6-c703.uibk.ac.at/tct/index.php}.
 
 The rest of this paper is structured as follows \MS[t]{...}
+
+\section{Average Reward Adjusted Reinforcement Learning}
+
+This section introduces the basic ideas of average reward adjusted reinforcement learning and is
+largely based on the ideas presented in~\cite{schneckenreither2020average}.
+
+The vast majority of methods used in RL can split into three categories~\cite{konda2000actor}: 1.\@
+Actor-only (policy iteration) methods, which improve the learned policy directly, 2.\@ Critic-only
+(value iteration) methods which exclusively learn a state value function that is then used to infer
+a policy, thus this is an indirect approach, and 3.\@ Actor-Critic methods which learn both a policy
+and a value function, whereas the value function update is used as a measure for the policy
+parameters update. This overcomes the drawbacks of actor-only methods in which each update is
+independent of previous estimates and the approximate solutions and further issues like catastrophic
+forgetting~\cite{french1999catastrophic} of critic-only approaches.
+
+Average reward adjusted RL in its current form is based on value-iteration. Thus it seeks to
+approximate a value function that describes the reward received when the agent navigates through the
+solution space. Therefore this \MS[t]{section/paper} concentrates on the critic-only method, whereas
+implemented the corresponding actor-critic approach is straightforward.
+
+\paragraph{Discounted Reinforcement Learning.}
+In standard discounted RL the value of a state \(V_{\gamma}^{\pol}(s)\) is defined as the expected
+discounted sum of rewards under the stationary policy \(\pol\) when starting in state \(s\), i.e.
+\begin{align*}
+  V_{\gamma}^{\pol}(s) \defsym \lim_{N \to \infty} E[\sum_{t=0}^{N-1} \gamma^{t} R_{t}^{\pol}(s)]\tcom
+\end{align*}
+where \(0 \leqslant \gamma < 1\) is the discount factor and
+\(R_{t}^{\pol}(s) = \E_{\pol}[ r(s_{t},a_{t}) \mid s_{t} = s, a_{t} = a]\) the reward received at
+time \(t\) upon starting in state \(s\) by following policy
+\(\pol\)~\cite[e.g.]{Mahadevan96_AverageRewardReinforcementLearningFoundationsAlgorithmsAndEmpiricalResults}.
+%
+% The aim is to find an optimal policy \(\polopt_{\gamma}\), which when followed, maximises the state
+% value for all states \(s\) as compared to any other policy \(\pol_{\gamma}\):
+% $V_{\gamma}^{\polopt_{\gamma}} - V_{\gamma}^{\pol_{\gamma}} \geqslant 0\tpkt$
+Due to Miller and Veinott~\cite{MillerVeinott1969} the discounted state value of a state \(s\) can
+be decomposed using the Laurent series expansion by
+%
+\begin{align}
+  \label{eq:laurent}
+  V_{\gamma}^{\pol}(s) = \frac{\avgrew^{\pol}(s)}{1-\gamma} + V^{\pol}(s) + e_{\gamma}^{\pol}(s) \tcom
+\end{align}
+%
+where \(\avgrew^{\pol}(s)\) is the average reward per step received, \(V^{\pol}(s)\) the additional
+reward that sums up when the process starts in state \(s\), usually referred to as bias value, and
+\(e_{\gamma}^{\pol}(s)\) an error term due to \(\gamma < 1\). Puterman~\cite[p.341]{Puterman94}
+shows that \(\lim_{\gamma \to 1} e_{\gamma}^{\pol}(s) = 0\).
+
+\paragraph{Average Reward Adjusted Reinforcement Learning.} In contrast to discounted RL, average
+reward adjusted RL focuses on learning the average reward \(\avgrew^{\pol}(s)\) and the bias value
+\(V^{\pol}(s)\) separately.
+%
+The \textit{average reward} \(\avgrew^{\pol}(s)\) of a policy \(\pol\) and a starting state \(s\)
+was first defined by Howard~\cite{howard1960dynamic} as
+%
+\begin{align*}
+  \avgrew^{\pol}(s) \defsym \lim_{N \to \infty} \frac{\E [\sum_{t=0}^{N-1}R_{t}^{\pol}(s)]}{N}\tcom
+\end{align*}
+%
+where as above \(R_{t}^{\pol}(s)\) is the reward received at time \(t\), starting in state \(s\) and
+following policy \(\pol\). In the common case of unichain MDPs, in which only a single set of
+recurrent states exists, the average reward \(\avgrew^{\pol}(s)\) is equal for all states
+\(s\)~\cite{Mahadevan96_AverageRewardReinforcementLearningFoundationsAlgorithmsAndEmpiricalResults,Puterman94}
+and thus simply referred to as \(\avgrew^{\pol}\). Then the \textit{bias value} is defined as
+%
+\begin{align*}
+  V^{\pol}(s) \defsym \lim_{N \to \infty}{ \E [ \sum_{t=0}^{N-1}(R_{t}^{\pol}(s) - \avgrew^{\pol}(s) )]}\tcom
+\end{align*}
+%
+where again \(R_{t}^{\pol}(s)\) is the reward received at time \(t\), starting in state \(s\) and
+following policy \(\pol\). Finally, we define the \textit{average reward adjusted discounted state
+  value} $\X_{\gamma}^{\pol}(s)$ of a state $s$ under policy $\pol$ and with discount factor
+$0 \leqslant \gamma \leqslant 1$ as
+%
+\begin{align*}
+  \X_{\gamma}^{\pol}(s) \defsym V^{\pol}(s) + e_{\gamma}^{\pol}(s)\tpkt
+\end{align*}
+%
+Decomposing the state values allows to set \(\gamma\) arbitrary close to \(1\), including \(1\). In
+the sequel we set \(\gamma = 1\). Model-free reinforcement learning assesses state-action \((s,a)\)
+tuples instead of states \(s\) solely. Although this increases the number of states it allows
+learning without providing any model information.
+
+Algorithm~\ref{alg:near} presents a simplified version of adjusted average reward RL, similar to the
+one presented Schwartz in~\cite{schwartz1993reinforcement}. For the comprehensive version
+see~\cite{schneckenreither2020average}, \MS[t]{min/max} where the objective of minimising and
+maximising are flipped accordingly. In line 6 the average reward is updated in a exponentially
+smoothed manner by the current estimates of the consecutive average reward adjusted discounted state
+values in case a non-random action was taken. The formula used is a reformulation of the second
+addend of the Laurent series expansion~(see~\cite{MillerVeinott1969} or~\cite[p.346]{Puterman94} for
+details): \(\avgrew^{\pol}(s) + V^{\pol}(s) - E[V^{\pol}(s)] = R_{t}(s)\). Then in line 7 the state
+values of the state action tuple \((s_{t}, a_{t})\) are updated using an estimate of the
+consecutive action tuple value, the immediate and average reward. 
+
+Therefore, in average reward adjusted RL 
+
+\begin{algorithm}[t!]
+  \begin{algorithmic}[1]
+    \State{}Initialize state \(s_{0}$, $\avgrew^{\pol} = 0\), \(\X^{\pol}(\cdot, \cdot) = 0\), set
+    an exploration rate \(0 < p_{exp} \leqslant 1\) and learning rates \(0 < \alpha, \gamma <
+    1\).
+    \While{the stopping criterion is not fulfilled}
+    \State{}
+    \begin{minipage}[t]{0.9\textwidth} With probability \(p_{exp}\) choose a random action
+      and probability \(1-p_{exp}\) one with \(\min_{a} \X^{\pol}(s_{t},a)\).
+    \end{minipage}
+    \State{}Carry out action \(a_{t}\), observe reward \(r_{t}\) and resulting state \(s_{t+1}\).
+    \If{a non-random action was chosen}
+    \State{}
+    \begin{minipage}{0.9\textwidth}
+      \centering
+      \(\avgrew^{\pol}  \gets (1- \alpha) \avgrew^{\pol} + \alpha [r_{t} + \min_{a}\X^\pol(s_{t+1},a) - \X^\pol(s_{t},a_{t})]\)
+    \end{minipage}
+    \EndIf
+    \State{}Update the average reward adjusted discounted state-value.
+    \State{}
+    \begin{minipage}{0.9\textwidth}
+      \centering
+      \(\X^\pol(s_{t},a_{t}) \gets (1-\gamma) \X^\pol(s_{t},a_{t}) + \gamma [r_{t} + \min_{a} \X^\pol(s_{t+1},a) - \avgrew^{\pol}]\)
+    \end{minipage}
+
+    \State{}Set \(s \gets s'\), \(t \gets t+1\) and decay parameters
+    \EndWhile{}
+  \end{algorithmic}
+  \caption{\label{alg:near}Simplified model-free tabular average reward adjusted RL algorithm for unichain MDPs.}
+\end{algorithm}
 
 
 \section{Dynamic Strategy Building}
