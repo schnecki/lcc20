@@ -1,0 +1,303 @@
+\documentclass[envcountsame]{llncs}
+\usepackage[OT1]{fontenc}
+\usepackage[utf8x]{inputenc}
+
+\usepackage[hidelinks]{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{stmaryrd}
+\usepackage{listings}
+\usepackage{array}
+\usepackage{textcomp}
+\usepackage{pifont}
+\usepackage{caption}
+\usepackage{bbding}
+\usepackage{comment}
+\usepackage{url}
+\usepackage{proof}
+\usepackage{turnstile}
+
+\usepackage{main}
+
+\newcommand\MS[2][r]{\ifx t#1 \textcolor{blue}{[#2]}%
+\else \begin{center}\textcolor{blue}{#2} \end{center} \fi}%
+\newcommand{\Author}{Manuel Schneckenreither}
+\newcommand{\Email}{manuel.schneckenreither@uibk.ac.at}
+\newcommand{\Title}{Dynamic Strategy Building for \tct{}}
+\hypersetup{
+ pdfauthor={Manuel Schneckenreither, MSc MSc},
+ pdftitle={Improving \tct{} with Amortised Resource Analyses and Dynamic Strategy Building},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={}, 
+ pdflang={English}}
+\date{\today}
+
+
+\title{
+  \Title
+}
+\author{\Author% \inst{1}
+  % \href{https://orcid.org/0000-0000-0000-0000}{\aiOrcid \hspace{2mm} orcid.org/0000-0000-0000-0000}
+  \orcidID{0000-0002-4812-4665}
+}
+% \authorrunning{Schneckenreither and Haeussler}
+\institute{
+  Department of Information Systems,
+  Production and Logistics Management,
+  University of Innsbruck, Austria\\
+  email: \email{\Email}
+}
+
+
+\begin{document}
+
+\newcommand{\Abstract}{
+
+\MS{Todo}
+}
+
+% \begin{abstract}
+% \MS{TODO}
+% \end{abstract}
+
+% \mailaddress{manuel.schneckenreither@uibk.ac.at}
+% \matriculationnumber{01117198}
+% \supervisor{Assoc.~Prof.~Dr.~Georg Moser}
+
+\clearpage\maketitle
+% \tableofcontents
+
+\abstract{\Abstract}
+
+
+\section{Introduction}
+
+Being able to perform space and runtime complexity analyses of programs is important for various
+tasks, including but not limited to comparing algorithms, designing efficient programs or to
+identify performance bottlenecks in software~\cite{Aho:1974:DAC:578775}. Some applications, as for
+instance scheduling~\cite{puschner2000guest} are even safety crucial in real-time computer systems
+and their failure can lead to a disaster, including the loss of human
+life~\cite{engblom2000modeling}.
+%
+% Besides these obvious implications of program analysis there are other applications as well. For
+% instance, in schedulability analyses of safety critical real-time computer systems worst-case
+% execution times can be used to test whether a given set of tasks will meet the timing requirements
+% of the application on a given target system and thus is schedulable or not~\cite{puschner2000guest}.
+% This information can be used to ensure timely responses from interrupts which might be crucial and
+% failure could lead to a disaster, sometimes including the loss of human
+% life~\cite{engblom2000modeling}. Similarly, the applications of the analysis of lower bounds include
+% performance debugging, program optimisation and verification. But, in the literature one also finds
+% the automation of parallelisation as application area, cf.~\cite{DebrayLHL97,AlbertGM13}.
+
+Usually we are interested in the runtime complexity of a program in regard to the programs' input
+\textit{size}, e.g.\@ the length of the input list when analysing a sorting algorithm.
+%
+The time needed for the evaluation of an algorithm expressed as a function of its size is called the
+\textit{time complexity}~\cite{Aho:1974:DAC:578775}. The \textit{asymptotic time complexity} is the
+limiting behavior of the complexity as the problem's size increases. To be more precise, if a
+problem of size \(n\) is processed by an algorithm in time \(c n^{x}\) for some constant \(c\), then
+the algorithm is in the class \(\bO(n^{x})\). Analogous (asymptotic) space complexity is defined.
+Futher, the \textit{worst-case complexity} is the maximum complexity over all inputs of a given
+size~\cite{Aho:1974:DAC:578775}. In contrast, if for a given size the complexity is taken as the
+minimum complexity over all inputs of a that size, the complexity is called \textit{best-case
+  complexity}~\cite{Wegbreit75}.
+
+
+% Most often we are concerned with time or space complexities of
+% algorithms~\cite{Aho:1974:DAC:578775}. These complexities are measured in a quantity, called
+% \textit{size}, of input data, which is usually represented as an integer value. For example, the
+% size for an algorithm which reverses an input list could be the number of elements in the list.
+% Similarly, for a graph problem the number of nodes could specify it's size.
+
+% The time needed for the evaluation of an algorithm expressed as a function of it's size is called
+% the \textit{time complexity}~\cite{Aho:1974:DAC:578775}. The \textit\{asymptotic time
+% complexity\} is the limiting behavior of the complexity as the problem's size increases. To be more
+% precise, if a problem of size \(n\) is processed by an algorithm in time \(c n^{x}\) for some constant
+% \(c\), then the algorithm is in the class \(\bO(n^{x})\). Analogous (asymptotic) space complexity can be
+% defined.
+
+
+% Clearly, once the best-case and worst-case complexities of
+% algorithms are known, the (asymptotic) time or space complexities are predetermined and algorithms
+% can be compared to each other.
+
+% This allows choosing of appropriate algorithms when designing
+% applications. For instance, it might be crucial for security reasons to not provide location
+% information of database entries to external users via the application interface. Thus, if a database
+% request takes considerably more time once the needed information is located at the end of the
+% database table as compared to the beginning, then the users could imply the location of the
+% requested information according to the respond time. An algorithm with the same or similar
+% (asymptotic) best-case and worst-case complexities could be chosen to prevent such an attack.
+
+% Therefore, the aim is to find runtime complexities of programs. However, 
+Clearly an evaluation of, e.g.\@ the runtime, of programs by using sample inputs and tracing the
+actual runtime complexity is an unwise decision. This is due to (i) possibly infinitely many input
+values, and (ii) as an extrapolation of the expected runtime is unsound. However, regarding the
+applications it is of paramount importance to report sound complexities, which leads to the fact
+that the only option are static program analyses. Unfortunately, at the same time it is known that
+static analyses are undecidable~\cite{landi1992undecidability}, i.e.\@ it is not possible to build
+an analyser which is able to infer the complexity for any given input program.
+%
+Despite this negative result \tct{}~\cite{avanzini2016tct} was developed to automatically infer
+complexities of computer programs, whereas the input to \tct{} are (first as well as higher-order)
+functional programs in their generalised form of term rewrite systems (TRS). The analysis of \tct{}
+is not restricted to program-like applications, but allows standard term rewrite systems to be
+analysed, regardless of confluence, left-linearity, or other restrictions~\cite{avanzini2016tct}. In
+case the analysis succeeds \tct{} outputs a certification proofing the presented asymptotic
+complexity of the input program. \tct{} is a built modular in the sense that it decomposes the input
+program into a number of subprograms and applies its various methods on these, including further
+decomposition steps if required. 
+
+% and fully automatic complexity analyser for term rewrite systems (TRS) \cite{avanzini2016tct}.
+% this on one hand does not mean it cannot be tried to automatically infer complexities. One tool
+% that is developed at the University of Innsbruck which does exactly this is
+% \tct~\cite{avanzini2016tct}. On the other hand this negative result also means that
+Nonetheless, the undecidability result~\cite{landi1992undecidability} directly infers that some sort
+of creativity, of human or artificial origin, is needed to be able to successfully execute static
+analysis on a broad variety of input programs. This creativity is usually refereed to as a
+\textit{strategy}, which is used to analyse the computer program. In \tct{} this is implemented by
+specifying a tree or forest of sequences of the considered methods in combination with the fraction
+of time given for each sub-strategy. However, as a successful analysis of a custom input program
+correlates with the specification of applied strategies it is difficult to build a compound strategy
+at compile time.
+
+\MS[t]{RL paragraph, - recently many successful applications, - vast development, - immediate result,
+  - improve over time}
+
+
+Therefore, we propose to use reinforcement learning to introduce creativity for dynamic strategy
+building while executing \tct{}. This allows to build strategies according to the programs input
+characteristics.
+%
+In the offline learning phase the agent accumulates knowledge on how to build strategies by
+executing a wide variety of input programs with different sequences of methods. It does so by
+mapping the program characteristics, such as number of rules, root symbols, strongly connected
+components, etc\@. to actions like adding polynomial interpretations, matrix interpretations, or
+other methods to the current strategy sequence. This is done by assigning a value to each possible
+action according to the current strategy on hand. These valuations arise from reporting the
+complexity bound and time needed, whereas the reinforcement learning agent connects consecutive
+states accordingly~\cite{Sutton1998introduction}.
+%
+Then, when \tct{} is executed, this knowledge, saved as an artificial neural network, is used to
+build a corresponding strategy that fits the input program. The artificial neural network ensures
+that the agent can generalise and thus also interpolate in case of unseen input.
+
+%
+% Furthermore, it can improve its knowledge after the initial learning phase, which ensures that it
+% can learn how to build strategies from inputs specified at the official \tct{} web
+% interface\footnote{See http://colo6-c703.uibk.ac.at/tct/index.php}.
+
+% This
+% clearly machine learning in program analysis, namely to introduce some kind of creativity to be able
+% to improve the number of successfully analysed input programs.
+
+% Related lit
+Using machine learning for selecting strategies in static program analysis is no novelty. For
+instance, \MS[t]{todo paper} show that by combining \MS[t]{...}
+
+
+% \tct{} includes several different complexity methods, which can be used to infer complexity bounds
+% of TRS. The modularity of \tct{}s implementation allows the application of the techniques in a
+% sequence and thus the process of finding the complexity of the input program is divided into several
+% sub-problems \cite{avanzini2016tct}. The frameworks' complexity techniques are modelled as
+% complexity processors, which are applied according to some strategy. For defining strategies \tct{}
+% uses a powerful strategy language. It turns a set of processors into a sophisticated complexity
+% analyser \cite{avanzini2016tct}. Today this strategy is hard-coded in the code and does not adapt
+% automatically according to the input problem.
+
+
+% In this thesis we will improve \tct{} in two ways. First we will add an additional complexity
+% processor which implements amortised resource analysis for term rewrite systems. This processor will
+% allow both, worst-case runtime complexity and best-case runtime complexity analyses of computer
+% programs. And second we will use machine learning to build an adaptive strategies according to the
+% input program the user specifies. This will improve the overall number of solved instances for
+% analyses over different types of programs and also will reduce the manual interaction needed when
+% analysing programs for their complexity. The aim is to use reinforcement learning to constantly be
+% able to adapt the strategy to the type of input programs. The learner should automatically learn how
+% to build strategies based on characteristics of the input by using a given testbed. Furthermore, it
+% should be able to improve its knowledge after the initial learning phase. This ensures that it can
+% learn how to build strategies from inputs specified at the official \tct{} web
+% interface\footnote{See http://colo6-c703.uibk.ac.at/tct/index.php}.
+
+The rest of this paper is structured as follows \MS[t]{...}
+
+
+\section{Dynamic Strategy Building}
+
+
+In the second part of the thesis we concentrate on the dynamic building of strategies using machine
+learning. For this we first need to restructure the strategy building process such that the strategy
+can be set and build dynamically during the execution of \tct{}. This allows a machine learning
+algorithm to create strategies on-the-fly after reading the input program. As we are seeking for an
+adaptive strategy builder which optimises the complexity output in combination with the execution
+time and can constantly adapt to new paradigms, we will use reinforcement learning to optimise the
+strategies.
+
+Reinforcement learning is a optimisation technique that stems from dynamic programming. The goal in
+reinforcement learning is to find the best stationary policy for a given problem. This policy is
+usually provided by assessing the states (or state-action pairs) of an underlying Markov Decision
+Process (MDP). The method is based on the ideas of dynamic programming. However, the advantage of
+reinforcement learning over dynamic programming is that (i) the problem space is explored by an
+agent and thus only expectantly interesting parts of the problem space need to be assessed and (ii)
+the knowledge (acquisition) of transition probabilities becomes unnecessary as the states are
+evaluated by consecutively observed states solely.
+
+As opposed to the commonly applied discounted reinforcement learning algorithm we use an average
+reward reinforcement learning algorithm to adaptively release orders based on the assessed state
+values of the input program. Like discounted reinforcement learning also average reward
+reinforcement learning is based on an oracle function, in our case a measure of complexity bound and
+execution time, to assess the decisions taken by the agent. By repeatedly choosing different actions
+the agent examines the problem space and rates possible actions for any observed state.
+
+The advantage of average reward reinforcement learning in comparison to the widely applied
+discounted reinforcement learning framework is that the underlying optimisation technique is able to
+find better policies \cite{miller1969discrete,Puterman94}. This yields from the fact that in the
+latter method the states are assessed by a single value, while in the former the values are split up
+by the average reward accumulated over time and a bias value which optimises the number of steps to
+reach the best possible states of the examined process. Thus, while in average reward reinforcement
+learning these terms are learned separately in the discounted framework one value consisting of the
+addition of these values plus an additional error term is estimated. This incautious combining of
+different kinds of state values as done in discounted reinforcement learning leads to the problems
+that (i) the average reward, which is equal for all states of usually investigated unichain MDPs, is
+dominating and thus diluting the bias values, and (ii) the state values are deteriorated by the
+error term that is only imposed due to the discounting technique.
+
+
+Therefore, we propose a novel average reward reinforcement learning algorithm, which is the first
+one that solves the occurring cyclic constraint problem in the setting of average reward
+reinforcement learning, to build possible strategies on-the-fly according to the input program.
+These cyclic constraint problem emerges as the underlying constraint structure is based on the
+Laurent series expansion of the state values as shown by Miller and Veinott
+\cite{miller1969discrete}, and thus easily imposes an infinite number of interconnected constraints
+when handled unwisely. Through the learned policy the strategy building phase will be fast, as the
+learning can be done offline or in phases of low utilisation. Thus the agent uses the currently
+established policy to build a strategy according to the characteristics of the input program. This
+enables a dynamic strategy building process that mimics human creativity by optimising the problem
+space defined by the possible strategies and additionally a generalisation over the known instances
+by the artificial neural network that approximates the policy function.
+
+
+\section{Conclusion}
+
+In this thesis we will improve the performance of the static program analyser \tct{} in two ways.
+First we will integrate amortised analysis for worst-case runtime and best-case complexity. This
+enables another complexity processor in \tct{} strategy building. Then we concentrate on dynamic
+strategy building for \tct{}, such that the input program characteristics are used to build a
+specific strategy for the given input program. By using dynamic strategies we expect to be able to
+increase the performance of \tct{} and provide a fully automatic tool for program complexity
+analyses, with no need for user configuration.
+
+
+\bibliographystyle{plain}
+\bibliography{references}
+
+
+\appendix
+\end{document}
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

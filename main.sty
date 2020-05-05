@@ -1,0 +1,140 @@
+% style file for paper
+
+% misc
+\newcommand*{\tpkt}{\rlap{$\;$.}}
+\newcommand*{\tkom}{\rlap{$\;$,}}
+\newcommand{\defsym}{\mathrel{:=}}
+\newcommand{\defeqv}{\mathrel{:\Longleftrightarrow}}
+\newcommand*{\m}[1]{\mathsf{#1}}
+
+% generic definitions
+\DeclareMathOperator{\dom}{\m{dom}}
+\DeclareMathOperator{\range}{\m{rg}}
+\newcommand*{\N}{{\mathbb{N}}}
+\newcommand*{\Qplus}{{\mathbb{Q}^+}}
+\newcommand*{\Z}{{\mathbb{Z}}}
+\newcommand*{\bO}{\m{O}}
+\newcommand*{\rst}[2]{{#1}\!\restriction\!{#2}}
+\newcommand*{\dunion}{\mathrel{\uplus}}
+\DeclareMathOperator{\pow}{\mathcal{P}}
+\newcommand*{\stack}[2]{\genfrac{}{}{0pt}{3}{#1}{#2}}
+\newcommand*{\len}[1]{\lvert #1 \rvert}
+
+% TRSs
+\DeclareMathOperator{\TA}{\mathcal{T}}
+\newcommand*{\RS}{\mathcal{R}}
+\newcommand*{\RSS}{\mathcal{S}}
+\newcommand*{\QS}{\mathcal{Q}}
+\newcommand*{\CS}{\mathcal{C}}
+\newcommand*{\DS}{\mathcal{D}}
+\newcommand*{\VS}{\mathcal{V}}
+\newcommand*{\FS}{\mathcal{F}}
+\newcommand*{\FSCF}{\mathcal{F}^{\hspace{0.8mm} cf}}
+\DeclareMathOperator{\Var}{\mathcal{V}\m{ar}}
+\DeclareMathOperator{\Vrg}{\mathcal{V}\m{rg}}
+\DeclareMathOperator{\rt}{\m{rt}}
+\DeclareMathOperator{\rc}{\m{rc}}
+\DeclareMathOperator{\dheight}{\m{dh}}
+\newcommand*{\rew}{\mathrel{\to}}
+\newcommand*{\rsrew}[1][\RS]{\mathrel{\rew_{#1}}}
+\newcommand*{\rssrew}[1][\RS]{\mathrel{\rew^\ast_{#1}}}
+\newcommand*{\rstrew}[1][\RS]{\mathrel{\rew^+_{#1}}}
+\newcommand*{\rsbrew}[1][\RS]{\mathrel{\rew^{!}_{#1}}}
+\newcommand*{\rsnrew}[2][\RS]{\rew^{#2}_{#1}}
+\newcommand*{\toss}[1]{\mathrel{\smash{\xrightarrow{#1}}}}
+\newcommand*{\ito}{\mathrel{\smash{\xrightarrow{\raisebox{-1mm}{\tiny{$\mathrm{i}$}}}}}}
+\newcommand*{\irew}[1][\RS]{\mathrel{\ito_{#1}}}
+\newcommand*{\rsirew}[1][\RS]{\mathrel{\ito_{#1}}}
+\newcommand*{\rsinrew}[2][\RS]{\mathrel{\ito^{#2}_{#1}}}
+\newcommand*{\rsisrew}[1][\RS]{\mathrel{\ito^{\ast}_{#1}}}
+\newcommand*{\rsibrew}[1][\RS]{\mathrel{\ito_{#1}^{!}}}
+\newcommand*{\hole}{\Box}
+\newcommand*{\size}[1]{\lvert{#1}\rvert}
+\newcommand*{\expr}[2]{\langle {#1}, {#2} \rangle}
+\newcommand*{\subtype}{\mathrel{<:}}
+\newcommand{\relative}[2]{#1{\slash}#2}
+
+\newcommand{\NF}{\mathsf{NF}}
+\newcommand{\TERMS}{\TA(\FS,\VS)}
+
+%raml
+\newcommand*{\bool}{\m{bool}}
+\newcommand*{\llist}{\m{list}}
+\newcommand*{\nat}{\m{nat}}
+\newcommand*{\tree}{\m{tree}}
+\newcommand*{\treelist}{\m{treelist}}
+\newcommand*{\lleaf}{\m{leaf}}
+\newcommand*{\lnode}{\m{node}}
+
+\newcommand*{\leaf}{\m{Leaf}}
+\newcommand*{\node}{\m{Node}}
+\newcommand*{\true}{\m{true}}
+\newcommand*{\false}{\m{false}}
+%\newcommand*{\nil}{\m{nil}}
+%\newcommand*{\cons}{\m{::}}
+\newcommand*{\op}{\mathrel{\m{op}}}
+\newcommand*{\pair}{\m{pair}}
+\DeclareMathOperator{\dg}{\m{deg}}
+\DeclareMathOperator{\shift}{\lhd}
+\DeclareMathOperator{\spl}{\m{split}}
+
+% annotations
+\newcommand*{\TDannot}{\FS_{\m{pol}}}
+\newcommand{\Vecs}{\mathcal{A}}
+\newcommand*{\atypdcl}[3]{[{#1}] \xrightarrow{#3} {#2}}
+\newcommand*{\tjudge}[3]{{#1} \sststile{}{#2} {#3}}
+\newcommand*{\footprint}[3]{{#1} \sststile{\m{fp}}{#2} {#3}}
+\newcommand*{\typed}[2]{{#1}{:}\,{#2}}
+\newcommand*{\share}[2]{\curlyvee\!({#1}\! \mid \! {#2})}
+\newcommand*{\pp}{\vec{p}}
+\newcommand*{\ppcf}{\vec{p}^{\hspace{0.8mm} cf}}
+\newcommand*{\kcf}{\vec{k}^{cf}}
+\newcommand*{\qq}{\vec{q}}
+\newcommand*{\qqcf}{\vec{q}^{\hspace{0.8mm} cf}}
+\newcommand*{\rulecost}{K^{\text{rule}}}
+\newcommand*{\rr}{\vec{r}}
+\newcommand*{\vecs}{\vec{s}}
+
+% introduction
+\newcommand*{\nil}{\m{nil}}
+\newcommand*{\cons}{\mathrel{\m{\sharp}}}
+\newcommand*{\niltree}{\m{nil}_{t}}
+\newcommand*{\constree}{\mathrel{\m{\sharp}_{t}}}
+
+
+\newcommand*{\revp}{\m{rev'}}
+\newcommand*{\rev}{\m{rev}}
+\newcommand*{\checkF}{\m{chk}}
+\newcommand*{\head}{\m{hd}}
+\newcommand*{\queue}{\m{que}}
+\newcommand*{\tail}{\m{tl}}
+\newcommand*{\errorHead}{\m{err\_head}}
+\newcommand*{\errorTail}{\m{err\_tail}}
+\newcommand*{\snoc}{\m{snoc}}
+\newcommand*{\enq}{\m{enq}}
+\newcommand*{\mS}{\m{s}}
+\newcommand*{\zero}{\m{0}}
+\newcommand*{\conv}{\m{conv}}
+\newcommand*{\half}{\m{half}}
+\newcommand*{\lastbit}{\m{lastbit}}
+\newcommand*{\RSa}{\RS_{1}}
+\newcommand*{\aprove}{\textsf{AProVE}}
+\newcommand*{\costa}{\textsf{COSTA}}
+\newcommand*{\cofloco}{\textsf{CoFloCo}}
+\newcommand*{\loopus}{\textsf{LOOPUS}}
+\newcommand*{\raml}{\textsf{RaML}}
+\newcommand*{\tct}{\textsf{T\kern-0.2em\raisebox{-0.3em}C\kern-0.2emT}}
+\newcommand*{\C}{\textsf{C}}
+\newcommand*{\JavaBytecode}{\textsf{Java bytecode}}
+\newcommand*{\Java}{\textsf{Java}}
+\newcommand*{\OCaml}{\textsf{OCaml}}
+
+
+\newcommand*{\BTreeLookup}{\m{BTree}}
+\newcommand*{\RSbtree}{\RS_\m{btree}}
+\newcommand*{\anyEq}{\m{anyEq}}
+\newcommand*{\ite}{\m{ite}}
+\newcommand*{\lookup}{\m{lookup}}
+\newcommand*{\hoca}{\textsf{HOCA}}
+\newcommand*{\arahoca}{\textsf{ARA-HOCA}}
+\newcommand*{\aratrs}{\textsf{ARA-TRS}}
