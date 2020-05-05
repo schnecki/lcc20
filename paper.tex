@@ -19,7 +19,7 @@
 \usepackage{proof}
 \usepackage{turnstile}
 
-\usepackage{main}
+\usepackage{paper}
 
 \newcommand\MS[2][r]{\ifx t#1 \textcolor{blue}{[#2]}%
 \else \begin{center}\textcolor{blue}{#2} \end{center} \fi}%
@@ -164,8 +164,35 @@ of time given for each sub-strategy. However, as a successful analysis of a cust
 correlates with the specification of applied strategies it is difficult to build a compound strategy
 at compile time.
 
+The research area of reinforcement learning tries to mimic human
+behavior~\cite{schneckenreither2020average}, and thus in some sense also creativity. Additionally,
+over the past years vast progress was reported in reinforcement learning, which have lead to
+astonishing results in the application of its algorithms to game-like domains, for instance
+chess~\cite{Silver17_MasteringChessAndShogiBySelfPlayWithAGeneralReinforcementLearningAlgorithm},
+Go~\cite{Silver16_MasteringTheGameOfGoWithDeepNeuralNetworksAndTreeSearch}, and various Atari
+games~\cite{Mnih15_HumanlevelControlThroughDeepReinforcementLearningb}. It is an optimisation
+technique that stems from dynamic programming and tries to find the best stationary policy for a
+given problem~\cite{sutton1998introduction}. This policy is usually provided by assessing the states
+(or state-action pairs) of an underlying Markov Decision Process (MDP). The advantage of
+reinforcement learning over dynamic programming is that (i) the problem space is explored by an
+agent and thus only expectantly interesting parts of the problem space need to be assessed and (ii)
+the knowledge (acquisition) of transition probabilities becomes unnecessary as the states are
+evaluated by consecutively observed states solely\cite{sutton1998introduction}. Recently average
+reward adjusted discounted reinforcement learning has been shown to decrease the number of learning
+steps, leads to better output policies and in contrast to standard discounted reinforcement learning
+can be applied to tasks with non-zero average reward per step
+taken~\cite{schneckenreither2020average}. This latter allows specifying intermediate rewards, which
+also enables reinforcing more naturally, similar like humans reward their children with compliments,
+e.g\@. for making progress in a board game. 
+
+
 \MS[t]{RL paragraph, - recently many successful applications, - vast development, - immediate result,
   - improve over time}
+
+
+gave further insights 
+
+Schneckenreither~\cite{schneckenreither2020average} have 
 
 
 Therefore, we propose to use reinforcement learning to introduce creativity for dynamic strategy
@@ -179,7 +206,7 @@ components, etc\@. to actions like adding polynomial interpretations, matrix int
 other methods to the current strategy sequence. This is done by assigning a value to each possible
 action according to the current strategy on hand. These valuations arise from reporting the
 complexity bound and time needed, whereas the reinforcement learning agent connects consecutive
-states accordingly~\cite{Sutton1998introduction}.
+states accordingly~\cite{sutton1998introduction}.
 %
 Then, when \tct{} is executed, this knowledge, saved as an artificial neural network, is used to
 build a corresponding strategy that fits the input program. The artificial neural network ensures
@@ -254,7 +281,7 @@ the agent examines the problem space and rates possible actions for any observed
 
 The advantage of average reward reinforcement learning in comparison to the widely applied
 discounted reinforcement learning framework is that the underlying optimisation technique is able to
-find better policies \cite{miller1969discrete,Puterman94}. This yields from the fact that in the
+find better policies~\cite{miller1969discrete,Puterman94}. This yields from the fact that in the
 latter method the states are assessed by a single value, while in the former the values are split up
 by the average reward accumulated over time and a bias value which optimises the number of steps to
 reach the best possible states of the examined process. Thus, while in average reward reinforcement
