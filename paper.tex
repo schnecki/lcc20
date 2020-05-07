@@ -84,12 +84,13 @@
   %
   Static program analysers are important pieces of software which sometimes are crucial and their
   failure or incapability of analysing input programs can lead to fatal failure, including the loss
-  of human life. Unfortunately, static analyses are undecidable. Thus, some sort of creativity is
-  needed when building fully automatic static code analysers. We propose to use reinforcement
-  learning to introduce this required creativity in \tct{}, a complexity analyser for a generalised
-  form of functional programs, namely term rewrite systems.
+  of human life. Unfortunately, static program analysis is undecidable. Thus, some sort of
+  creativity is needed when building fully automatic static code analysers. We propose to use
+  reinforcement learning to introduce this required creativity in \tct{}, a complexity analyser for
+  a generalised form of functional programs, namely term rewrite systems.
   %
-  \keywords{\tct{}, static code analysis, time complexity, average reward adjusted reinforcement learning}
+  \keywords{\tct{}, static code analysis, time complexity, average reward adjusted reinforcement
+    learning}
 }
 
 % \begin{abstract}
@@ -125,7 +126,7 @@ life~\cite{engblom2000modeling}.
 % performance debugging, program optimisation and verification. But, in the literature one also finds
 % the automation of parallelisation as application area, cf.~\cite{DebrayLHL97,AlbertGM13}.
 
-Usually we are interested in the runtime complexity of a program in regard to the programs' input
+Usually we are interested in the complexity of a program in regard to the programs' input
 \textit{size}, e.g.\@ the length of the input list when analysing a sorting algorithm.
 %
 The time needed for the evaluation of an algorithm expressed as a function of its size is called the
@@ -181,8 +182,8 @@ is not restricted to program-like applications, but allows standard term rewrite
 analysed, regardless of confluence, left-linearity, or other restrictions~\cite{avanzini2016tct}. In
 case the analysis succeeds \tct{} outputs a certification proofing the presented asymptotic
 complexity of the input program. \tct{} is a built modular in the sense that it decomposes the input
-program into a number of subprograms and applies its various methods on these, including further
-decomposition steps if required. 
+program into a number of subprograms and applies its various complexity analysing methods on these.% ,
+% including further decomposition steps if required.
 
 % and fully automatic complexity analyser for term rewrite systems (TRS) \cite{avanzini2016tct}.
 % this on one hand does not mean it cannot be tried to automatically infer complexities. One tool
@@ -197,7 +198,7 @@ combination with the fraction of time given for each sub-strategy. However, as a
 of a custom input program correlates with the specification of applied strategies it is difficult to
 build a compound strategy at compile time.
 
-The research area of reinforcement learning tries to mimic human
+Interestingly, the research area of reinforcement learning tries to mimic human
 behavior~\cite{schneckenreither2020average}, and thus in some sense also creativity. Additionally,
 over the past years vast progress was reported in reinforcement learning (RL), which has lead to
 astonishing results in the application of its algorithms to game-like domains, for instance
@@ -229,11 +230,12 @@ programs input characteristics.
 In the offline learning phase the agent accumulates knowledge on how to build strategies by
 executing a wide variety of input programs with different sequences of methods. It does so by
 mapping the program characteristics, such as number of rules, root symbols, strongly connected
-components, etc\@. to actions like adding polynomial interpretations, matrix interpretations, or
-other methods to the current strategy sequence. This is done by assigning a value to each possible
-action according to the current strategy on hand. These valuations arise from reporting the
-complexity bound and time needed, whereas the reinforcement learning agent connects consecutive
-states accordingly~\cite{sutton1998introduction}.
+components, etc\@. to actions like adding polynomial interpretations~\cite{hirokawa2008automated},
+matrix interpretations~\cite{moser2008complexity}, or other methods to the current strategy
+sequence. This is done by assigning a value to each possible action according to the current
+strategy on hand. These valuations arise from reporting the complexity bound and time needed,
+whereas the reinforcement learning agent connects consecutive states
+accordingly~\cite{sutton1998introduction}.
 %
 Then, when \tct{} is executed, this knowledge, saved as an artificial neural network, is used to
 build a corresponding strategy that fits the input program. The artificial neural network ensures
@@ -306,7 +308,7 @@ independent of previous estimates and the approximate solutions plus some arisin
 catastrophic forgetting~\cite{french1999catastrophic} of critic-only approaches.
 
 Discounted RL, both the standard and average reward adjusted approach, are based on value-iteration.
-Thus they seeks to approximate a value function that describes the reward received when the agent
+Thus they seek to approximate a value function that describes the reward received when the agent
 navigates through the solution space. Therefore this paper concentrates on the critic-only method,
 whereas an implementation of the corresponding actor-critic approach is straightforward.
 
@@ -484,15 +486,16 @@ rules, number of (root) symbols, maximum function arity, number of strongly conn
 left-linearity, right-linearity, flags specifying whether it is a constructor TRS, orthogonality,
 completely defined, etc. The second data input describes the current strategy for the underlying
 sub-problem. This can be done using one natural number per possible method standing for the number
-of sequence operators since the last occurrence last occurrence of that technique.
+of sequence operators since the last occurrence of that particular technique.
 
 \paragraph{Reward Function.} As illustrated in Figure~\ref{fig:schema} the reward function is
 composed of two different reward generation actions, once a new method is added and when the
 strategy is completed. % The progress of the decomposition agent is reward by
 For succinctness we focus on the worst-case time complexity analysing agent. Whenever a new analyser
-technique is added or at the end of the strategy building process reached the complexity analysis is
-run (in parallel) with the strategy on hand. The result is then encoded as follows, where we assume
-a timeout of \(T\) seconds, a measured execution time of \(t\) seconds and resulting complexity \(C\):
+technique is added or when the end of the strategy building process is reached the complexity
+analysis is run (in parallel) with the strategy \(s_{t}\) on hand. The result is then encoded as
+follows, where we assume a timeout of \(T\) seconds, a measured execution time of \(t\) seconds and
+resulting complexity \(C\):
 \begin{align*}
   r(s_{t}) =
   \begin{cases}
