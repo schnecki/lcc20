@@ -1,0 +1,67 @@
+\begin{tikzpicture}[thin, scale=1.5]
+  % Points
+  \newcommand\maxX{4}         % = maxX
+  \newcommand\maxY{0}         % = maxY
+  \newcommand\goalX{0}         % = maxX
+  \newcommand\goalY{0}         % = maxY
+
+  \tikzmath{\maxXP = \maxX + 1; \maxYP = \maxY + 1;};
+
+  \foreach \x in {0,...,\maxXP} {
+    \foreach \y in {0,...,\maxYP} {
+      \draw (\x,0) -- (\x,\maxYP) node[] {};
+      \draw (0,\y) -- (\maxXP,\y) node[] {};
+    }
+    \draw (\x,0) -- (\x,-0.25) node[] {};
+  }
+  \foreach \x in {0,...,\maxX} {
+    \draw (\x+0.5,-0.25) node[] (\x+0.5,-0.25) {\(\ldots\)};
+  }
+
+  % Node names
+  \foreach \x in {0,...,\maxX} {
+    \foreach \y in {0,...,\maxY} {
+      \tikzmath{\xP = int(\maxX - \x); \yP = int(\maxY - \y);};
+      \draw (\x+0.5, \y+0.5) node[] {(\yP,\x)};
+    }
+  }
+
+  % goal state
+  \draw (\goalX+0.5, \maxY-\goalY+0.3) node[] (\goalX,\goalY,rand) {\tiny 101.260};
+
+  % x = 1; y=0
+  \tikzmath{\x = 1; \y = 0; \xP = int(\maxX - \x); \yP = int(\maxY - \y);};
+  \draw (\x+0.5, \y+0.9) node[] (\yP,\x,up)                  {\tiny \( 23.113 \)};
+  \draw (\x+0.5, \y+0.1) node[] (\yP,\x,down)                {\tiny \( 37.331 \)};
+  \draw (\x+0.1, \y+0.5) node[rotate=90] (\yP,\x,left)       {\tiny \( 67.160 \)};
+  \draw (\x+0.9, \y+0.5) node[rotate=90] (\yP,\x,right)      {\tiny \( 61.783 \)};
+
+  % x = 2; y=0
+  \tikzmath{\x = 2; \y = 0; \xP = int(\maxX - \x); \yP = int(\maxY - \y);};
+  \draw (\x+0.5, \y+0.9) node[] (\yP,\x,up)                  {\tiny \( 162.243 \)};
+  \draw (\x+0.5, \y+0.1) node[] (\yP,\x,down)                {\tiny \( 153.653 \)};
+  \draw (\x+0.1, \y+0.5) node[rotate=90] (\yP,\x,left)       {\tiny \( 49.812  \)};
+  \draw (\x+0.9, \y+0.5) node[rotate=90] (\yP,\x,right)      {\tiny \( 349.515 \)};
+
+  % x = 3; y=0
+  \tikzmath{\x = 3; \y = 0; \xP = int(\maxX - \x); \yP = int(\maxY - \y);};
+  \draw (\x+0.5, \y+0.9) node[] (\yP,\x,up)                  {\tiny \( 354.839 \)};
+  \draw (\x+0.5, \y+0.1) node[] (\yP,\x,down)                {\tiny \( 351.907 \)};
+  \draw (\x+0.1, \y+0.5) node[rotate=90] (\yP,\x,left)       {\tiny \( 306.761 \)};
+  \draw (\x+0.9, \y+0.5) node[rotate=90] (\yP,\x,right)      {\tiny \( 399.560 \)};
+
+  % x = 4; y=0
+  \tikzmath{\x = 4; \y = 0; \xP = int(\maxX - \x); \yP = int(\maxY - \y);};
+  \draw (\x+0.5, \y+0.9) node[] (\yP,\x,up)                  {\tiny \( 398.391 \)};
+  \draw (\x+0.5, \y+0.1) node[] (\yP,\x,down)                {\tiny \( 399.539 \)};
+  \draw (\x+0.1, \y+0.5) node[rotate=90] (\yP,\x,left)       {\tiny \( 399.376 \)};
+  \draw (\x+0.9, \y+0.5) node[rotate=90] (\yP,\x,right)      {\tiny \( 398.444 \)};
+
+  % Name
+  % \draw (\maxXP/2, -0.25) node[below,minimum height=0.75cm] { \small Estimated \(Q_{\gamma_{1}}^{\pol}(s,a)\) values};
+\end{tikzpicture}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../paper"
+%%% End:

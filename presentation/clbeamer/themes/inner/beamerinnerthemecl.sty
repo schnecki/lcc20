@@ -1,0 +1,34 @@
+\mode<presentation>
+\newif\ifclinner@rounded
+\newif\ifclinner@boxes
+\newif\ifclinner@shadow
+\newif\ifclinner@lighter
+
+\DeclareOptionBeamer{rounded}[true]{\csname clinner@rounded#1\endcsname}
+\DeclareOptionBeamer{shadow}[true]{\csname clinner@shadow#1\endcsname}
+\DeclareOptionBeamer{boxes}[true]{\csname clinner@boxes#1\endcsname}
+\DeclareOptionBeamer{lighter}[true]{\csname clinner@lighter#1\endcsname}
+\ProcessOptionsBeamer
+
+\ifclinner@boxes%
+  \setbeamercolor{block title}{use=footline,fg=white,bg=footline.bg}
+  \setbeamercolor{block body}{%
+    parent=normal text,%
+    use=block title,%
+    bg=\ifclinner@lighter block title.bg!15!white\else cl@gray\fi%
+  }
+  \setbeamercolor{block title example}{use=example text,fg=white,bg=example text.fg}
+  \setbeamercolor{block body example}{%
+    parent=normal text,%
+    use=block title example,%
+    bg=\ifclinner@lighter block title example.bg!15!white\else cl@gray\fi%
+  }%
+\else\fi%
+
+\ifclinner@rounded%
+ \setbeamertemplate{blocks}[rounded][shadow=\ifclinner@shadow true\else false\fi]
+ \setbeamertemplate{itemize items}[circle]
+ \setbeamertemplate{sections/subsections in toc}[ball unnumbered]
+\else\fi%
+
+\mode<all>

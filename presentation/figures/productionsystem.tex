@@ -1,0 +1,113 @@
+\begin{tikzpicture}[queue/.style={regular polygon,regular polygon sides=4,inner sep=0.075cm},scale=0.8]
+
+  \draw (-3.5,0) node[] {$\ldots$};
+  \draw (-4.1,-1.75) node[] {\scriptsize Due Date:};
+
+  \draw (-3.0,-1.5) -- (-3.0,1.5)
+        (-2.5,1.5)  -- (-2.5,-1.5)
+        (-2.5,-1.5) -- (-3.0,-1.5);
+  \draw (-2.75,-1.75) node[] {\tiny $t+3$};
+
+  \draw (-2.5,-1.5) -- (-2.5,1.5)
+        (-2,1.5)  -- (-2,-1.5)
+        (-2,-1.5) -- (-2.5,-1.5);
+  \draw (-2.25,-2) node[] {\tiny $t+2$};
+  \draw (-2 ,-1.5) -- (-2,1.5)
+        (-1.5,1.5)  -- (-1.5,-1.5)
+        (-1.5,-1.5) -- (-2,-1.5);
+  \draw (-1.75,-1.75) node[] {\tiny $t+1$};
+
+  \draw (-1.5,0.0) node[] (OP) {};
+  % \draw [decorate,decoration={brace,amplitude=5pt},xshift=-2pt,yshift=0pt] (-1.0,-2.25) -- (-3.75,-2.25)     node [black,midway,yshift=-0.4cm] {\scriOrder Pool};
+  % \draw [decorate,decoration={brace,amplitude=5pt},xshift=-2pt,yshift=0pt] (5.0,-2.25) -- (-.75,-2.25)  node [black,midway,yshift=-0.4cm] {Production System};
+  % \draw [decorate,decoration={brace,amplitude=5pt},xshift=-2pt,yshift=0pt] (7,-2.25) -- (5.25,-2.25) node [black,midway,yshift=-0.4cm] {Inventory};
+
+  % \draw (-1.75,-1.3) node[circle,inner sep=1pt,minimum size=0.2cm,draw] {$\scriptscriptstyle 1$};
+  % \draw (-1.75,-1.0) node[circle,inner sep=1pt,minimum size=0.2cm,draw] {$\scriptscriptstyle 1$};
+  % \draw (-1.75,-0.7) node[circle,inner sep=1pt,minimum size=0.2cm,draw] {$\scriptscriptstyle 2$};
+  % \draw (-1.75,-0.4) node[circle,inner sep=1pt,minimum size=0.2cm,draw] {$\scriptscriptstyle 2$};
+  % \draw (-1.75,-0.1) node[circle,inner sep=1pt,minimum size=0.2cm,draw] {$\scriptscriptstyle 3$};
+  % \draw (-1.75, 0.2) node[circle,inner sep=1pt,minimum size=0.2cm,draw] {$\scriptscriptstyle 3$};
+  % \draw (-1.75, 0.5) node[circle,inner sep=1pt,minimum size=0.2cm,draw] {$\scriptscriptstyle 4$};
+  % \draw (-1.75, 0.8) node[circle,inner sep=1pt,minimum size=0.2cm,draw] {$\scriptscriptstyle 4$};
+  % \draw (-1.75, 1.1) node[circle,inner sep=1pt,minimum size=0.2cm,draw] {$\scriptscriptstyle 6$};
+  % \draw (-1.75, 1.4) node[circle,inner sep=1pt,minimum size=0.2cm,draw] {$\scriptscriptstyle 6$};
+  % \draw (-1.75, 1.7) node[circle,inner sep=1pt,minimum size=0.2cm,draw] {$\scriptscriptstyle 6$};
+
+  \draw (-2.25,-1.3) node[circle,inner sep=1pt,minimum size=0.2cm,draw] {$  \scriptscriptstyle 1$};
+  \draw (-2.25,-0.95) node[circle,inner sep=1pt,minimum size=0.2cm,draw] {$ \scriptscriptstyle 2$};
+  \draw (-2.25,-0.6) node[circle,inner sep=1pt,minimum size=0.2cm,draw] {$  \scriptscriptstyle 1$};
+  \draw (-2.25,-0.25) node[circle,inner sep=1pt,minimum size=0.2cm,draw] {$ \scriptscriptstyle 1$};
+
+  \draw (-2.75,-1.3) node[circle,inner sep=1pt,minimum size=0.2cm,draw] {$  \scriptscriptstyle 1$};
+  \draw (-2.75,-0.95) node[circle,inner sep=1pt,minimum size=0.2cm,draw] {$ \scriptscriptstyle 1$};
+  \draw (-2.75,-0.6) node[circle,inner sep=1pt,minimum size=0.2cm,draw] {$  \scriptscriptstyle 2$};
+  \draw (-2.75,-0.25) node[circle,inner sep=1pt,minimum size=0.2cm,draw] {$ \scriptscriptstyle 2$};
+  \draw (-2.75, 0.1) node[circle,inner sep=1pt,minimum size=0.2cm,draw] {$  \scriptscriptstyle 2$};
+  \draw (-2.75, 0.45) node[circle,inner sep=1pt,minimum size=0.2cm,draw] {$ \scriptscriptstyle 1$};
+  \draw (-2.75, 0.8) node[circle,inner sep=1pt,minimum size=0.2cm,draw] {$  \scriptscriptstyle 2$};
+
+  \draw (0.7,0)    node[minimum size=1cm,draw,align=center] (M1) {WC1\\[-1ex]{\tiny $\Unif(70,130)$}};
+  \draw (3.45,0.75)   node[minimum size=1cm,draw,align=center] (M2) {WC2\\[-1ex]{\tiny  $\Unif(130,170)$}};
+  \draw (3.45,-0.75)  node[minimum size=1cm,draw,align=center] (M3) {WC3\\[-1ex]{\tiny $\Unif(180,200)$}};
+  % \draw (6,1.5)    node[minimum size=1cm,draw,align=center] (M4) {M4\\[-1ex]{\tiny $\Exp(210)$ or}\\[-1ex]{\tiny $\Unif(50,370)$}};
+  % \draw (6,0)      node[minimum size=1cm,draw,align=center] (M5) {M5\\[-1ex]{\tiny $\Exp(285)$ or}\\[-1ex]{\tiny $\Unif(200,370)$}};
+  % \draw (6,-1.5)   node[minimum size=1cm,draw,align=center] (M6) {M6\\[-1ex]{\tiny $\Exp(215)$ or}\\[-1ex]{\tiny $\Unif(110,320)$}};
+  \draw (6,0)      node[minimum size=1cm,draw,align=center,fill] (\fgi{}) {\color{white} \fgi{}};
+
+  \draw (M1.west) node[draw,queue,minimum size=0.05cm,fill,xshift=-0.075cm] (Q1) {};
+  \draw (M2.west) node[draw,queue,minimum size=0.05cm,fill,xshift=-0.075cm] (Q2) {};
+  \draw (M3.west) node[draw,queue,minimum size=0.05cm,fill,xshift=-0.075cm] (Q3) {};
+  % \draw (M4.west) node[draw,queue,minimum size=0.05cm,fill,xshift=-0.075cm] (Q4) {};
+  % \draw (M5.west) node[draw,queue,minimum size=0.05cm,fill,xshift=-0.075cm] (Q5) {};
+  % \draw (M6.west) node[draw,queue,minimum size=0.01cm,fill,xshift=-0.075cm] (Q6) {};
+
+  \draw (8.5, 1) node[] (CustomerTop) {\Huge \Gentsroom};
+  \draw (8, 0.5) node[] {\Huge \Ladiesroom};
+  \draw (8.5, 0) node[] (Customer) {\Huge \Gentsroom};
+  \draw (8,-0.5) node[] {\Huge \Ladiesroom};
+  \draw (8.5,-1) node[] {\Huge \Gentsroom};
+
+  % Paths
+  \path (OP.center) edge[->, bend left=10]
+  node[xshift=0.088cm,yshift=0.12cm,align=center] {\scriptsize \alert{Order} \\[-1ex] \scriptsize
+    \alert{Release} \\[1.05ex] \scriptsize % \alert{via LT}
+  } (Q1);
+
+  
+  \path (M1) edge[->, bend left=10, above]                 node[xshift=-0.1cm,yshift=-0.05cm] {$\scriptstyle % \text{P}1
+    $} (Q2);
+  \path (M1) edge[->, bend right=10,above]                 node[xshift=0.1cm,yshift=-0.05cm] {$\scriptstyle % \text{P}2
+    $} (Q3);
+  % \path (M2) edge[->, bend left=10,above,near start ]      node {$\scriptstyle 1$}     (Q4);
+  % \path (M2) edge[->, bend left=10,above,near start ]      node {$\scriptstyle 2$}     (Q5);
+  % \path (M2) edge[->, bend left=10,above,near start ]      node[xshift=0.06cm,yshift=-0.1cm] {$\scriptstyle 3$}     (Q6);
+  % \path (M3) edge[->, bend right=10,above,very near start] node[xshift=0.20cm,yshift=-0.15cm] {$\scriptstyle 4$}     (Q4);
+  % \path (M3) edge[->, bend right=10,above,very near start]      node[yshift=-0.075cm] {$\scriptstyle 5$}     (Q5);
+  % \path (M3) edge[->, bend right=10,above,near start]      node {$\scriptstyle 6$}     (Q6);
+  % \path (M4) edge[->, bend left=10,above,near start]       node[xshift=0.1cm] {$\scriptstyle 1,4$} (\fgi{});
+  \path (M2) edge[->, bend left=10,above,near start]       node[xshift=0.1cm, yshift=-0.07cm] {$\scriptstyle % \text{P}1
+    $} (\fgi{});
+  \path (M3) edge[->, bend right=10,above,near start]      node[xshift=0.07cm,yshift=0.07cm] {$\scriptstyle % \text{P}2
+    $} (\fgi{});
+
+  \path (\fgi{}) edge[->,near start] node[xshift=0.1cm,align=left] {\tiny Not \\[-1ex]
+    \tiny before \\[-0.5ex] \tiny due \\[-1ex] \tiny date}    (Customer);
+
+  \path (CustomerTop) edge[densely dashed] (8.5,2.8);
+  \path (8.5,2.8) edge[densely dashed,midway,align=center] node[yshift=0.0cm] {\scriptsize Customer places
+    an order which initiates the process\\ {\tiny Distribution of incoming orders:
+      $\Unif(3,15)$ % or $\Exp(105)$ or $\Unif(65, 145)$
+    }
+  } (-4.5, 2.8);
+  \path (-4.5,2.8) edge[densely dashed] (-4.5,0);
+  \path (-4.5,0) edge[->,densely dashed] (-4.0,0);
+
+
+\end{tikzpicture}
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../presentation"
+%%% End:

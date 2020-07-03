@@ -1,0 +1,71 @@
+\begin{tikzpicture}[thin, scale=1.0]
+  % Points
+  \newcommand\maxX{3}         % = maxX
+  \newcommand\dist{3}
+  \newcommand\lastdist{3}
+  \newcommand\short{0.405cm}
+  \newcommand\move{0.175cm}
+  \newcommand\noarrname{continue}
+  \tikzmath{\maxXP = int(\maxX - 1); \maxXN = int(\maxX + 1); };
+
+
+  \foreach \x in {0,...,\maxX} {
+    \node[minimum size=25, draw, circle] (arr\x) at (\dist*\x,0) { \((\x,\mathsf{T})\) };
+    \node[minimum size=25, draw, circle] (noarr\x) at (\dist*\x,-\dist) { \((\x,\mathsf{F})\) };
+  }
+  \node[minimum size=25] (arr\maxXN) at (\dist*\maxX+\lastdist,0) { \(\cdots\) };
+  \node[minimum size=25] (noarr\maxXN) at (\dist*\maxX+\lastdist,-\dist) { \(\cdots\) };
+
+
+  \foreach \x in {0,...,\maxX} {
+    % loop
+    \path[->] (arr\x) edge[loop above] node[text width=1.5cm,align=center] {\footnotesize
+      \textsf{reject}  \\[-0.75ex] \scriptsize \(\lambda / (\lambda + \mu)\)} (arr\x);
+
+    % up down
+    \draw (arr\x) node[right=\move] (arrr\x) {};
+    \draw (noarr\x) node[right=\move] (noarrr\x) {};
+    \draw (arr\x) node[left=\move] (arrl\x) {};
+    \draw (noarr\x) node[left=\move] (noarrl\x) {};
+    \path[->,shorten <= \short, shorten >= \short] (noarrr\x) edge node[text
+    width=1.5cm,align=center,rotate=90,yshift=-0.75] {\footnotesize  \textsf{\noarrname}
+      \\[-0.75ex] \scriptsize \(\lambda / (\lambda + \mu)\)} (arrr\x);
+    \path[->,shorten <= \short, shorten >= \short] (arrl\x) edge   node[text
+    width=1.5cm,align=center,rotate=90,yshift=-0.75] {\footnotesize  \textsf{accept}  \\[-0.75ex]
+      \scriptsize \(\mu / (\lambda + \mu)\)} (noarrl\x);
+  }
+
+  \foreach \x in {0,...,\maxX} {
+    % ->
+    \tikzmath{\xN = int(\x + 1); };
+    \path[thin,->] (arr\x.east) edge  node[text width=1.5cm,align=center,yshift=-1] {\footnotesize
+      \textsf{accept}  \\[-0.75ex] \scriptsize \(\lambda / (\lambda + \mu)\)} (arr\xN.west);
+  }
+  \foreach \x in {0,...,\maxX} {
+    % diagonal
+    \tikzmath{\xN = int(\x + 1); };
+    \path[thin,->] (arr\xN) edge  node[text width=1.5cm,align=center,yshift=-1, rotate=45]
+    {\footnotesize  \textsf{reject}  \\[-0.75ex] \scriptsize \(\mu / (\lambda + \mu)\)} (noarr\x);
+  }
+
+  \foreach \x in {1,...,\maxXN} {
+    % <-
+    \tikzmath{\xP = int(\x - 1); };
+    \path[thin,->] (noarr\x.west) edge  node[text width=1.5cm,align=center,yshift=-1]
+    {\footnotesize  \textsf{\noarrname}  \\[-0.75ex] \scriptsize \(\mu / (\lambda + \mu)\)} (noarr\xP.east);
+  }
+
+  % (0,F) loop
+  \path[->] (noarr0) edge[loop below] node[text width=1.5cm,align=center] {\footnotesize
+    \textsf{\noarrname}  \\[-0.75ex] \scriptsize \(\mu / (\lambda + \mu)\)} (noarr0);
+  % (0,T) -> (0,F)
+  \path[thin,->] (arr0.west) edge[bend right=50]  node[text
+  width=1.5cm,align=center,xshift=1,rotate=90] {\footnotesize  \textsf{reject}  \\[-0.2ex]
+    \scriptsize \(\mu / (\lambda + \mu)\)} (noarr0.west);
+\end{tikzpicture}
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../paper"
+%%% End:

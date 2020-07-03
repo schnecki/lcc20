@@ -1,0 +1,222 @@
+\mode<all>
+
+\newif\ifcl@rounded
+\newif\ifcl@boxes
+\newif\ifcl@shadow
+\newif\ifcl@titleframefootline
+\newif\ifcl@lighter
+\newif\ifcl@oldlogo
+
+
+\AtBeginDocument{%
+ \pgfdeclareverticalshading{cl@topshade}{\paperwidth}{%
+  color(0pt)=(bg);%
+  color(4pt)=(black!50!bg)%
+ }%
+}
+
+\setbeamertemplate{seal opacity}{0.0}
+\setbeamertemplate{title page seal opacity}{1.0}
+
+\DeclareOptionBeamer{sealopacity}{\setbeamertemplate{seal opacity}{#1}}
+\DeclareOptionBeamer{titlepagesealopacity}{%
+ \setbeamertemplate{title page seal opacity}{#1}%
+}
+\DeclareOptionBeamer{titleframefootline}[true]{%
+ \csname cl@titleframefootline#1\endcsname%
+}
+\DeclareOptionBeamer{shadow}[true]{\csname cl@shadow#1\endcsname}
+\DeclareOptionBeamer{rounded}[true]{\csname cl@rounded#1\endcsname}
+\DeclareOptionBeamer{boxes}[true]{\csname cl@boxes#1\endcsname}
+\DeclareOptionBeamer{lighter}[true]{\csname cl@lighter#1\endcsname}
+\DeclareOptionBeamer{oldlogo}[true]{\csname cl@oldlogo#1\endcsname}
+\ProcessOptionsBeamer
+
+
+\pgfdeclareimage[width=60mm,height=60mm]{seal}{seal}
+\setbeamertemplate{background canvas}{%
+ \begin{minipage}{\paperwidth}
+  \vspace{5.5cm}
+  \hspace*{-2cm}
+  \pgfuseimage{seal}
+  \pgfsetfillopacity{1.0}
+ \end{minipage}%
+}
+
+\setbeamertemplate{headline}{%
+ \leavevmode%
+ \hbox{%
+ \begin{beamercolorbox}[wd=.5\paperwidth,ht=3mm,left,sep=.25mm]{headline}
+  \textbf{~\strut\smash{\insertsection}}
+ \end{beamercolorbox}%
+ \begin{beamercolorbox}[wd=.5\paperwidth,ht=3mm,right,sep=.25mm]{headline}
+  \textbf{\strut\smash{\insertsubsection}~}
+ \end{beamercolorbox}%
+ }
+}
+
+\setbeamertemplate{footline}{%
+ \leavevmode%
+ \hbox{%
+ \begin{beamercolorbox}[wd=.333333\paperwidth,ht=3mm,left,sep=.25mm]%
+ {footline}
+  ~\strut\insertshortauthor%
+  % \ifx\insertinstitute\@empty \else~~(\insertshortinstitute)\fi%
+ \end{beamercolorbox}%
+ \begin{beamercolorbox}[wd=.466666\paperwidth,ht=3mm,center,sep=.25mm]%
+ {footline}
+  \strut\smash{\insertshorttitle}
+ \end{beamercolorbox}%
+ \begin{beamercolorbox}[wd=.2\paperwidth,ht=3mm,right,sep=.25mm]%
+ {footline}
+  \strut%
+  \ifx\insertlocation\@empty \else\insertshortlocation\qquad\quad\fi%
+  \llap{\insertframenumber}/\inserttotalframenumber~
+ \end{beamercolorbox}%
+ }%
+ \vskip0pt%
+}
+
+\ifcl@lighter%
+  \ifcl@oldlogo%
+    \pgfdeclareimage[height=20mm]{cllogo}{cl-old-logo}
+  \else%
+    \pgfdeclareimage[height=13.5mm]{cllogo}{cl-logo-light.png}
+  \fi%
+\else%
+  \ifcl@oldlogo%
+    \pgfdeclareimage[height=20mm]{cllogo}{cl-old-logo-dark.png}
+  \else%
+    \pgfdeclareimage[height=13.5mm]{cllogo}{cl-logo}
+  \fi%
+\fi%
+
+\setbeamertemplate{cl title page head}{%
+  \hbox{%
+  \ifcl@oldlogo%
+    \begin{beamercolorbox}[wd=71.5mm,ht=15mm,dp=0mm]{headline}
+    \end{beamercolorbox}
+    \begin{beamercolorbox}[wd=35mm,ht=15mm,dp=0mm]{background}
+     \href{http://cl-informatik.uibk.ac.at}{%
+      \hspace*{-1.0mm}\raisebox{-3mm}{\pgfuseimage{cllogo}}}
+    \end{beamercolorbox}
+    \begin{beamercolorbox}[wd=2cm,ht=15mm,dp=0mm]{headline}
+    \end{beamercolorbox}
+  \else%
+    \begin{beamercolorbox}[wd=80mm,ht=13mm,dp=0mm]{headline}
+    \end{beamercolorbox}
+    \hspace{-2mm}%
+    \begin{beamercolorbox}[wd=35mm,ht=13mm,dp=0mm]{background}
+     \href{http://cl-informatik.uibk.ac.at}{%
+       {\pgfuseimage{cllogo}}}
+    \end{beamercolorbox}
+    \hspace{-1.75mm}%
+    \begin{beamercolorbox}[wd=15.5mm,ht=13mm,dp=0mm]{headline}
+    \end{beamercolorbox}
+  \fi
+  }
+  \ifcl@lighter%
+    \begin{beamercolorbox}[wd=\paperwidth,ht=1mm]{background}
+    \end{beamercolorbox}
+    \begin{beamercolorbox}[wd=\paperwidth,ht=3mm]{footline}
+    \end{beamercolorbox}
+  \else%
+    \begin{beamercolorbox}[wd=\paperwidth,ht=1.5mm]{background}
+    \end{beamercolorbox}
+    \begin{beamercolorbox}[wd=\paperwidth,ht=4mm]{footline}
+    \end{beamercolorbox}
+    \ifcl@shadow\else
+      \begin{beamercolorbox}[wd=\paperwidth,ht=1mm]{hrule}
+      \end{beamercolorbox}
+    \fi
+  \fi%
+}
+\setbeamertemplate{title page}{%
+  \vbox{}
+  \ifcl@lighter%
+    \vskip2.0em\par
+  \else%
+    \vskip2.75em\par
+  \fi%
+  \vfill
+  \begin{centering}
+   \ifcl@boxes\setbeamercolor{title}{fg=white,bg=footline.bg}\else\fi%
+   \begin{beamercolorbox}[sep=8pt,center,%
+    rounded=\ifcl@rounded true\else false\fi,%
+    shadow=\ifcl@shadow true\else false\fi]{title}
+    \usebeamerfont{title}\inserttitle\par
+    \ifx\insertsubtitle\@empty%
+    \else%
+     \vskip0.25em%
+     {\usebeamerfont{subtitle}\usebeamercolor[fg]{subtitle}\insertsubtitle\par}%
+    \fi%
+   \end{beamercolorbox}
+   \vskip1.0em\par
+   \begin{beamercolorbox}[sep=8pt,center]{author}
+    \usebeamerfont{author}\insertauthor
+   \end{beamercolorbox}
+   \begin{beamercolorbox}[sep=8pt,center]{institute}
+    \usebeamerfont{institute}\insertinstitute
+   \end{beamercolorbox}
+   \begin{beamercolorbox}[sep=8pt,center]{date}
+    \usebeamerfont{date}\insertlocation{}\insertdate
+   \end{beamercolorbox}
+   \vskip0.5em%
+  \end{centering}
+  \vfill
+}
+
+\newcommand{\titleframe}{%
+ {\setbeamertemplate{headline}{\usebeamertemplate{cl title page head}}
+ \ifcl@titleframefootline\else\setbeamertemplate{footline}{}\fi%
+ \addtobeamertemplate{background canvas}{%
+  \pgfsetfillopacity{\expandbeamertemplate{title page seal opacity}}%
+ }{}
+ \frame{\titlepage}}%
+ \addtobeamertemplate{background canvas}{%
+  \pgfsetfillopacity{\expandbeamertemplate{seal opacity}}%
+ }{}
+ \mode<handout>{\setbeamertemplate{background canvas}{}}
+ \global\let\@thanks\@empty
+ \setcounter{footnote}{0}
+}
+
+\ifcl@boxes%
+  \setbeamercolor{frametitle}{parent=footline}%
+  \addtobeamertemplate{headline}{}{%
+    \begin{beamercolorbox}[wd=\paperwidth,ht=1mm]{background}
+    \end{beamercolorbox}
+  }
+\else\fi
+
+\ifcl@boxes\ifcl@shadow\else%
+  \addtobeamertemplate{frametitle}{}{%
+    \ifcl@lighter\else%
+      \vskip-15.2pt%
+      \begin{beamercolorbox}[wd=\paperwidth,ht=1mm]{hrule}
+      \end{beamercolorbox}
+    \fi%
+  }%
+\fi\else\fi%
+
+\ifcl@shadow%
+  \addtobeamertemplate{cl title page head}{}{%
+    \vskip-0.2pt%
+    \pgfuseshading{cl@topshade}%
+    \vskip-2pt%
+  }%
+  \ifcl@boxes%
+    \addtobeamertemplate{frametitle}{}{%
+      \vskip-9.6pt%
+      \leavevmode%
+      \kern-\beamer@leftmargin\pgfuseshading{cl@topshade}%
+    }%
+  \else%
+    \addtobeamertemplate{headline}{}{%
+      \vskip-0.2pt%
+      \pgfuseshading{cl@topshade}%
+      \vskip-2pt%
+    }%
+  \fi
+\else\fi 
+

@@ -134,7 +134,7 @@ The time needed for the evaluation of an algorithm expressed as a function of it
 limiting behavior of the complexity as the problem's size increases. To be more precise, if a
 problem of size \(n\) is processed by an algorithm in time \(c n^{x}\) for some constant \(c\), then
 the algorithm is in the class \(\bO(n^{x})\). Analogous (asymptotic) space complexity is defined.
-Futher, the \textit{worst-case complexity} is the maximum complexity over all inputs of a given
+Further, the \textit{worst-case complexity} is the maximum complexity over all inputs of a given
 size~\cite{Aho:1974:DAC:578775}. In contrast, if for a given size the complexity is taken as the
 minimum complexity over all inputs of a that size, the complexity is called \textit{best-case
   complexity}~\cite{Wegbreit75}.
@@ -494,12 +494,12 @@ strategy is completed. % The progress of the decomposition agent is reward by
 For succinctness we focus on the worst-case time complexity analysing agent. Whenever a new analyser
 technique is added or when the end of the strategy building process is reached the complexity
 analysis is run (in parallel) with the strategy \(s_{t}\) on hand. The result is then encoded as
-follows, where we assume a timeout of \(T\) seconds, a measured execution time of \(t\) seconds and
-resulting complexity \(C\):
+follows, where we assume a timeout of \(T\) seconds, a measured execution time of \(t' \leqslant T\)
+seconds and resulting complexity \(C\):
 \begin{align*}
   r(s_{t}) =
   \begin{cases}
-     c T + t    & \qquad   \text{if $C$ is }\bO(n^{c}) \text{ and } c < P_{\max}\\
+     c T + t'    & \qquad   \text{if $C$ is }\bO(n^{c}) \text{ and } c < P_{\max}\\
      P_{\max} T  & \qquad  \text{otherwise}\tpkt
   \end{cases}
 \end{align*}

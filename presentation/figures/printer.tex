@@ -1,0 +1,43 @@
+\begin{tikzpicture}[thin, scale=0.65]
+  % Nodes
+  \foreach \x in {1,...,5}{
+    \draw ({cos(\x*72-72)*2.5},{sin(\x*72-72)*2.5}) node(\x) [circle,draw,minimum size=25] {\footnotesize \(\x\)};
+  };
+  \foreach[evaluate={
+    \y=int(\x+5);
+  }]  \x in {2,...,3}{
+    \draw ({-cos(\x*72-72)*2.5+5},{sin(\x*72-72)*2.5}) node(\y) [circle,draw,minimum size=25]
+    {\footnotesize \(\x'\)};
+  };
+  \foreach [evaluate={
+    \y=int(\x+5);
+    \z=int(\x+5);
+  }] \x in {4,...,5}{
+    \draw ({-cos(\x*72-72)*2.5+5},{sin(\x*72-72)*2.5}) node(\z) [circle,draw,minimum size=25]
+    {\footnotesize \(\y'\)};
+  };
+
+  \newcommand\bend{22.5}
+  % Edges
+  \path[thin, ->, bend right=\bend, >=stealth] (1) edge[below left] node {\footnotesize\(\)} (2);
+  \path[thin, ->, bend right=\bend, >=stealth] (2) edge[above]      node {\footnotesize\(\)} (3);
+  \path[thin, ->, bend right=\bend, >=stealth] (3) edge[left ]      node {\footnotesize\(\)} (4);
+  \path[thin, ->, bend right=\bend, >=stealth] (4) edge[above]      node {\footnotesize\(\)} (5);
+  \path[thin, ->, bend right=\bend, >=stealth] (5) edge[above left] node[yshift=-2] {\footnotesize\(5\)} (1);
+
+  \path[thin, ->, bend left=\bend, >=stealth]         (1)  edge[below right] node {\footnotesize\(\)} (7);
+  \path[thin, ->, bend left=\bend, >=stealth]         (7)  edge[above right] node {\footnotesize\(\)} (8);
+  \path[thin, ->, dashed, bend left=\bend, >=stealth] (8)  edge[right]       node {\(\ldots\)} (9) ;
+  \path[thin, ->, bend left=\bend, >=stealth]         (9)  edge[above]       node {\footnotesize\(\)} (10);
+  \path[thin, ->, bend left=\bend, >=stealth]         (10) edge[above right] node[yshift=-2] {\footnotesize\(20\)} (1);
+
+  \draw (0,0) node[] { Printer };
+  \draw (5,0) node[] { Mail };
+
+\end{tikzpicture}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../paper"
+%%% End:
+

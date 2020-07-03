@@ -1,0 +1,81 @@
+\begin{tikzpicture}[scale=8,
+  declare function={
+    red(\x) = {(0.08^((\x+0.4)))+0.2};
+    cyan(\x) = {(0.08^((\x+0.7)))+0.2};
+  },
+  ]
+
+  \draw[->] (0,0.1) -- (1.1,0.1) node[right] {$\gamma$};
+  \draw[->] (0,0.1) -- (0,0.72) node[above] {$\X_{\gamma}^{\pol}(s)$};
+  \draw[scale=1,domain=0.001:1.0,smooth,variable=\x,blue] plot ({\x},{0.2});
+  \draw[scale=1,domain=0.001:1.0,smooth,variable=\x,red] plot ({\x},{red(\x)});
+  \draw[scale=1,domain=0.001:1.0,smooth,variable=\x,cyan] plot ({\x},{cyan(\x)});
+
+  % Labels for all 3 functions
+  \tikzmath{\lx = 0.25; \eps=0.04; \delY=0.015;};
+  \tikzmath{\yr = red(\lx+2*\eps)+\delY;};
+  \tikzmath{\yc = cyan(\lx+\eps)+\delY;};
+  \draw[red]  (\lx+2*\eps,\yr)   node[anchor=west] () {$\X_\gamma^{\pol_{1}}(s) = V^{\pol_{1}}(s) + e_{\gamma}^{\pol_{1}}(s)$};
+  \draw[cyan] (\lx+\eps,\yc)   node[anchor=west] () {$\X_\gamma^{\pol_{2}}(s)$};
+  \draw[blue] (\lx,0.2+\delY+0.0055) node[anchor=west]     () {$V^{\pol_{1}}(s) = V^{\pol_{2}}(s)$};
+
+
+  % MEASURE RED
+  \tikzmath{\e = red(0.15);}; % x = 0.15
+  \tikzmath{\xe = -0.075;};
+
+  % gamma_0 dashed indication line
+  \draw[black, dashed, black!40] (0.15, 0.1) -- (0.15, \e+0.03);
+  \draw (0.15, 0.1) node[below] {\(\gamma_{0}\)};
+
+  % label
+  \draw[black] (\xe-0.05, 0.2-0.025) -- (\xe-0.05, \e+0.025) node[midway,xshift=-0.3cm,rotate=90] {\footnotesize \(e_{\gamma_{0}}^{\pol_{1}}(s)\)};
+  \draw[black] (\xe-0.06, 0.2)       -- (\xe-0.04, 0.2);
+  \draw[black] (\xe-0.055, 0.205)    -- (\xe-0.045, 0.195);
+  \draw[black] (\xe-0.06, \e)        -- (\xe-0.04, \e);
+  \draw[black] (\xe-0.055, \e+0.005) -- (\xe-0.045, \e-0.005);
+
+  % Measure cyan
+  \tikzmath{\e = cyan(0.15);};      % x = 0.15
+  \tikzmath{\xe = 0;};
+  \draw[black] (\xe-0.05, 0.2-0.025) -- (\xe-0.05, \e+0.025) node[midway,xshift=-0.3cm,rotate=90] {\footnotesize \(e_{\gamma_{0}}^{\pol_{2}}(s)\)};
+  \draw[black] (\xe-0.06, 0.2)       -- (\xe-0.04, 0.2);
+  \draw[black] (\xe-0.055, 0.205)    -- (\xe-0.045, 0.195);
+  \draw[black] (\xe-0.06, \e)        -- (\xe-0.04, \e);
+  \draw[black] (\xe-0.055, \e+0.005) -- (\xe-0.045, \e-0.005);
+
+  % Measure epsilon
+  \tikzmath{\e = 0.25;};
+  \tikzmath{\xe = 1.11;};
+
+  % gamma_2
+  \draw[black, dashed, black!40] (1.0, 0.1) -- (1.0, \e+0.025);
+  \draw (1.0, 0.1) node[below] {\(\gamma_{2}\)};
+
+
+  \draw[black] (\xe-0.05, 0.2-0.025) -- (\xe-0.05, \e+0.025) node[midway,xshift=-0.2cm,rotate=90] {\footnotesize \(\epsilon\)};
+  \draw[black] (\xe-0.06, 0.2)       -- (\xe-0.04, 0.2);
+  \draw[black] (\xe-0.055, 0.205)    -- (\xe-0.045, 0.195);
+  \draw[black] (\xe-0.06, \e)        -- (\xe-0.04, \e);
+  \draw[black] (\xe-0.055, \e+0.005) -- (\xe-0.045, \e-0.005);
+
+
+  % \draw (-0.015,0.1) -- (0.015,0.1);
+  % \draw (-0.111, 0.1) node[] () {$R^{\pol}(\sOne)$};
+
+  % \draw (0.9,-0.015) -- (0.9,0.015) node[below, yshift=-0.2cm] () {$1$};
+  % \draw (0.75,-0.015) -- (0.75,0.015) node[below, yshift=-0.2cm] () {$\gamma_{1}$};
+  % \draw (0.20,-0.015) -- (0.20,0.015) node[below, yshift=-0.2cm] () {$\gamma_{0}$};
+
+  % \draw (0.5,0.4) -- (0.5,0.258578644) node[midway,left, yshift=-0.2cm] () {$e_{\gamma}^{\pol}(\sOne)$};
+
+  % \draw (0.2,0.146114562) -- (0.75,0.146114562) node[midway, below] () {$\gamma_{1}-\gamma_{0}$};
+  % \draw (0.75,0.146114562) -- (0.75,0.5) node[midway,right] () {$V_{\gamma_{1}}^{\pol}(\sOne)-V_{\gamma_{0}}^{\pol}(\sOne)$};
+
+
+\end{tikzpicture}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../paper"
+%%% End:

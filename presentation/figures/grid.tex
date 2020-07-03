@@ -1,0 +1,67 @@
+\begin{tikzpicture}[thin, scale=1.5]
+  % Points
+  \newcommand\maxX{1}         % = maxX
+  \newcommand\maxY{1}         % = maxY
+  \newcommand\goalX{0}         % = maxX
+  \newcommand\goalY{0}         % = maxY
+
+  \tikzmath{\maxXP = \maxX + 1; \maxYP = \maxY + 1;};
+
+  \foreach \x in {0,...,\maxXP} {
+    \foreach \y in {0,...,\maxYP} {
+      \draw (\x,0) -- (\x,\maxYP) node[] {};
+      \draw (0,\y) -- (\maxXP,\y) node[] {};
+    }
+  }
+  \foreach \x in {0,...,\maxX} {
+    \foreach \y in {0,...,\maxY} {
+      \tikzmath{\xP = int(\maxX - \x); \yP = int(\maxY - \y);};
+      \draw (\x+0.5, \y+0.5) node[] {(\yP,\x)};
+      \draw (\x+0.5, \y+0.9) node[] (\yP,\x,up)                  {\ifthenelse{\x=\goalX \AND \yP=\goalY}{}{\tiny up   }};
+      \draw (\x+0.5, \y+0.1) node[] (\yP,\x,down)                {\ifthenelse{\x=\goalX \AND \yP=\goalY}{}{\tiny down }};
+      \draw (\x+0.1, \y+0.5) node[rotate=90] (\yP,\x,left)       {\ifthenelse{\x=\goalX \AND \yP=\goalY}{}{\tiny left }};
+      \draw (\x+0.9, \y+0.5) node[rotate=90] (\yP,\x,right)      {\ifthenelse{\x=\goalX \AND \yP=\goalY}{}{\tiny right}};
+    }
+  }
+  \draw (\goalX+0.5, \maxY-\goalY+0.3) node[] (\goalX,\goalY,rand) {\tiny random};
+
+  % Name
+  \draw (\maxXP/2, 0) node[below,minimum height=0.75cm] { \small State/Action Space};
+
+\end{tikzpicture}
+\begin{tikzpicture}[thin, scale=1.5]
+  % Points
+  \newcommand\maxX{1}         % = maxX
+  \newcommand\maxY{1}         % = maxY
+  \newcommand\goalX{0}         % = maxX
+  \newcommand\goalY{0}         % = maxY
+
+  \tikzmath{\maxXP = \maxX + 1; \maxYP = \maxY + 1;};
+
+  \foreach \x in {0,...,\maxXP} {
+    \foreach \y in {0,...,\maxYP} {
+      \draw (\x,0) -- (\x,\maxYP) node[] {};
+      \draw (0,\y) -- (\maxXP,\y) node[] {};
+    }
+  }
+  \foreach \x in {0,...,\maxX} {
+    \foreach \y in {0,...,\maxY} {
+      \tikzmath{\xP = int(\maxX - \x); \yP = int(\maxY - \y);};
+      \draw (\x+0.5, \y+0.5) node[] {(\yP,\x)};
+      \draw (\x+0.5, \y+0.9) node[] (\yP,\x,up)                  {\ifthenelse{\x=\goalX \AND \yP=\goalY}{}{\tiny \(\Unif(0,8)\)\ifthenelse{\yP=0    }{\(-1\)}{} }};
+      \draw (\x+0.5, \y+0.1) node[] (\yP,\x,down)                {\ifthenelse{\x=\goalX \AND \yP=\goalY}{}{\tiny \(\Unif(0,8)\)\ifthenelse{\yP=\maxY}{\(-1\)}{} }};
+      \draw (\x+0.1, \y+0.5) node[rotate=90] (\yP,\x,left)       {\ifthenelse{\x=\goalX \AND \yP=\goalY}{}{\tiny \(\Unif(0,8)\)\ifthenelse{\x=0     }{\(-1\)}{} }};
+      \draw (\x+0.9, \y+0.5) node[rotate=90] (\yP,\x,right)      {\ifthenelse{\x=\goalX \AND \yP=\goalY}{}{\tiny \(\Unif(0,8)\)\ifthenelse{\x=\maxX }{\(-1\)}{} }};
+    }
+  }
+  \draw (\goalX+0.5, \maxY-\goalY+0.3) node[] (\goalX,\goalY,rand) {\tiny 10};
+
+  % Name
+  \draw (\maxXP/2, 0) node[below,minimum height=0.75cm] { \small Reward Function};
+
+\end{tikzpicture}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../paper"
+%%% End:

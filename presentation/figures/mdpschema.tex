@@ -1,0 +1,28 @@
+\begin{tikzpicture}
+  [state/.style={circle,draw,minimum size=12ex,inner sep=0.075cm}
+  , scale=1.0
+  , thin]
+
+  \draw (00ex, 00ex) node[state,minimum size=6ex] (s0) {\(\cdot\)};
+  \draw (25ex, 00ex) node[state] (s1) {\(s\)};
+  \draw (50ex, 00ex) node[state] (s2) {\( s \seq{} \)};
+  \draw (75ex, 00ex) node[state,ellipse,dashed] (s3) {\( s \seq{} t\)};
+  \draw (25ex,-15ex) node[state,ellipse,dashed] (s4) {\( s \alter{} \mathsf{identity}\)};
+  \draw (75ex,-15ex) node[state,minimum size=6ex,fill] (se) {\(\cdot\)};
+
+  % Paths
+  \path (s0) edge[->] node[align=left,above] {\(\small \mathsf{strat\colon identity}\)} (s1); 
+  \path (s1) edge[->] node[align=left,above] {\(\small \Seq\)} (s2);
+  \path (s2) edge[->] node[align=left] {\(\small{\mathsf{Concrete}}\)\\ \(\small{\mathsf{Method}}\)} (s3); 
+  \path (s3) edge[->,bend right] node[align=left, above] {\small Progress reward} (s1); 
+  \path (s1) edge[->,bend left] node[align=left,right] {\(\small \Alt\)} (s4.east); 
+  \path (s4.west) edge[->,bend left] node[align=left,left] {} (s1); 
+  \path (s1) edge[->,near end] node[align=left,sloped] {\(\small \End\) \\ \small Final reward} (se); 
+  
+\end{tikzpicture}
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../presentation"
+%%% End:

@@ -1,0 +1,164 @@
+% 2007 by Christian Sternagel
+\mode<all>
+
+\newif\ifcl@newheadings
+\newif\ifcl@seriftitle
+\newif\ifcl@rounded
+
+\RequirePackage{tikz}
+\usetikzlibrary{calc}
+\DeclareOptionBeamer{sealopacity}{%
+  \PassOptionsToPackage{sealopacity=#1}{beamerouterthemecl}%
+}
+\DeclareOptionBeamer{titlepagesealopacity}{%
+  \PassOptionsToPackage{titlepagesealopacity=#1}{beamerouterthemecl}%
+}
+\DeclareOptionBeamer{shadow}{%
+  \PassOptionsToPackage{shadow=true}{beamerouterthemecl}%
+  \PassOptionsToPackage{shadow=true}{beamerinnerthemecl}%
+}
+\DeclareOptionBeamer{boxes}{%
+  \PassOptionsToPackage{boxes=true}{beamerouterthemecl}%
+  \PassOptionsToPackage{boxes=true}{beamerinnerthemecl}%
+}
+\DeclareOptionBeamer{rounded}[true]{%
+  \csname cl@rounded#1\endcsname%
+  \PassOptionsToPackage{rounded=true}{beamerouterthemecl}%
+  \PassOptionsToPackage{rounded=true}{beamerinnerthemecl}%
+}
+\DeclareOptionBeamer{titleframefootline}[true]{%
+  \PassOptionsToPackage{titleframefootline=#1}{beamerouterthemecl}%
+}
+\DeclareOptionBeamer{lighter}{%
+  \PassOptionsToPackage{lighter=true}{beamercolorthemecl}%
+  \PassOptionsToPackage{lighter=true}{beamerouterthemecl}%
+  \PassOptionsToPackage{lighter=true}{beamerinnerthemecl}%
+}
+\DeclareOptionBeamer{oldlogo}{%
+  \PassOptionsToPackage{oldlogo=true}{beamerouterthemecl}%
+}
+\DeclareOptionBeamer{newheadings}[true]{\csname cl@newheadings#1\endcsname}
+\DeclareOptionBeamer{seriftitle}[true]{\csname cl@seriftitle#1\endcsname}
+\ProcessOptionsBeamer
+
+\usefonttheme{default}
+\useinnertheme{cl}
+\usecolortheme{cl}
+\useoutertheme{cl}
+
+\def\location{\@dblarg\cl@location}
+\long\def\cl@location[#1]#2{%
+ \def\beamer@temp{#2}%
+ \ifx\beamer@temp\@empty
+  \def\insertlocation{}
+ \else
+  \def\insertlocation{#2\quad}%
+ \fi
+ \def\cl@shortlocation{#1}%
+}
+\location{}
+
+\beamertemplatenavigationsymbolsempty
+
+\newcommand\examplecolors{%
+  \setbeamercolor{frametitle}{bg=example text.fg,fg=white}
+  \setbeamercolor{hrule}{bg=cl@lightgreen,fg=white}
+  \setbeamercolor{structure}{fg=example text.fg}
+  \setbeamercolor*{block title}{use=block title example,parent=block title example}
+  \setbeamercolor*{block body}{use=block body example,parent=block body example}
+}
+
+\newlength{\@topicorexamplelength}
+
+\ifcl@newheadings%
+  \ifcl@seriftitle%
+    \setbeamerfont{title}{family=\rmfamily,series=\bfseries,size=\large}
+    \setbeamerfont{subtitle}{size=\footnotesize}
+  \else\fi%
+  \newcommand<>\heading[1]{%
+    \onslide#2%
+    \def\l{10.5mm}\def\r{5mm}%
+    \begin{tikzpicture}[baseline=(heading.base)]
+    \draw[use as bounding box] (0,0) node
+      [draw=cl@darkblue,fill=cl@darkblue,%
+        minimum width=4cm,text depth=0pt,%
+        inner xsep=0pt,%
+      ] (heading)
+      {\usebeamerfont{block title}\usebeamercolor[bg]{normal text}\large#1};
+    \filldraw[cl@darkblue]
+      ($(heading.south west) + (-\l,0)$) --
+      (heading.south east) -- ++(\r,0)
+      \ifcl@rounded[rounded corners=3mm]\else\fi-- ($(heading.north east) + (\r,0)$)
+      -- ($(heading.north west) + (-\l,0)$);
+    \node at (heading) [draw=cl@darkblue,fill=cl@darkblue,%
+      minimum width=4cm,text depth=0pt,inner xsep=0pt]
+      {\usebeamerfont{block title}\usebeamercolor[bg]{normal text}\large#1};
+    \filldraw[cl@gray]
+      ($(heading.south west) + (-\l,-1mm)$) --
+      ($(heading.south east) + (\r,-1mm)$)
+      \ifcl@rounded[rounded corners=3mm]\else\fi--
+      ++(0,-2.0mm) -- ($(heading.south west) + (-\l,-3.0mm)$);
+    \filldraw[cl@orange]
+      ($(heading.south west) + (-\l,0)$) --
+      ($(heading.south east) + (\r,0)$) --
+      ++(0,-1.0mm) -- ($(heading.south west) + (-\l,-1.0mm)$);
+    \end{tikzpicture}
+    \vskip3.5mm
+  }
+  \newcommand<>\exampleheading[1]{%
+    \onslide#2%
+    \def\l{10.5mm}\def\r{5mm}%
+    \begin{tikzpicture}[baseline=(heading.base)]
+    \draw[use as bounding box] (0,0) node
+      [draw=example text.fg,fill=example text.fg,%
+        minimum width=4cm,text depth=0pt,%
+        inner xsep=0pt,%
+      ] (heading)
+      {\usebeamerfont{block title}\usebeamercolor[bg]{normal text}\large#1};
+    \filldraw[example text.fg]
+      ($(heading.south west) + (-\l,0)$) --
+      (heading.south east) -- ++(\r,0)
+      \ifcl@rounded[rounded corners=3mm]\else\fi-- ($(heading.north east) + (\r,0)$)
+      -- ($(heading.north west) + (-\l,0)$);
+    \node at (heading) [draw=example text.fg,fill=example text.fg,%
+      minimum width=4cm,text depth=0pt,inner xsep=0pt]
+      {\usebeamerfont{block title}\usebeamercolor[bg]{normal text}\large#1};
+    \filldraw[cl@gray]
+      ($(heading.south west) + (-\l,0)$) --
+      ($(heading.south east) + (\r,0)$)
+      \ifcl@rounded[rounded corners=1mm]\else\fi--
+      ++(0,-1.0mm) -- ($(heading.south west) + (-\l,-1.0mm)$);
+    \end{tikzpicture}
+    \vskip0mm
+  }
+\else%
+  \newcommand<>\heading[1]{%
+    \onslide#2%
+    \settowidth{\@topicorexamplelength}{\large#1}%
+    \addtolength{\@topicorexamplelength}{2mm}%
+    \begin{beamercolorbox}[center,wd=\@topicorexamplelength,%
+      rounded=\ifcl@rounded true\else false\fi,%
+      sep=\ifcl@rounded 0mm\else 1mm\fi]%
+      {frametitle}%
+    \large#1%
+    \end{beamercolorbox}%
+  }
+  \newcommand<>\exampleheading[2][block title example]{%
+    \onslide#3%
+    \settowidth{\@topicorexamplelength}{\large#2}%
+    \addtolength{\@topicorexamplelength}{2mm}%
+    \begin{beamercolorbox}[center,wd=\@topicorexamplelength,%
+      rounded=\ifcl@rounded true\else false\fi,%
+      sep=\ifcl@rounded 0mm\else 1mm\fi]%
+      {#1}%
+    \large#2%
+    \end{beamercolorbox}%
+  }
+\fi
+
+
+\newcommand\insertshortlocation[1][]{{%
+ \beamer@setupshort{#1}%
+ \beamer@insertshort{\cl@shortlocation}%
+}}
+\pdfpageattr{/Group << /S /Transparency /I true /CS /DeviceRGB>>}
