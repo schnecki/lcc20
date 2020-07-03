@@ -80,15 +80,15 @@
   email: \email{\Email}
 }
 
-\usepackage{etoolbox}
-\newcommand{\zerodisplayskips}{%
-  \setlength{\abovedisplayskip}{0pt}%
-  \setlength{\belowdisplayskip}{0pt}%
-  \setlength{\abovedisplayshortskip}{0pt}%
-  \setlength{\belowdisplayshortskip}{0pt}}
-\appto{\normalsize}{\zerodisplayskips}
-\appto{\small}{\zerodisplayskips}
-\appto{\footnotesize}{\zerodisplayskips}
+% \usepackage{etoolbox} 
+% \newcommand{\zerodisplayskips}{%
+  % \setlength{\abovedisplayskip}{0pt}%
+  % \setlength{\belowdisplayskip}{0pt}%
+  % \setlength{\abovedisplayshortskip}{0pt}%
+  % \setlength{\belowdisplayshortskip}{0pt}}
+% \appto{\normalsize}{\zerodisplayskips}
+% \appto{\small}{\zerodisplayskips}
+% \appto{\footnotesize}{\zerodisplayskips}
 \begin{document}
 
 % \setlength{\abovedisplayskip}{0pt}
@@ -319,7 +319,7 @@ Actor-only (policy iteration) methods, which improve the learned policy directly
 (value iteration) methods which exclusively learn a state value function that is then used to infer
 a policy, thus this is an indirect approach, and 3.\@ Actor-Critic methods which learn both a policy
 and a value function, whereas the value function update is used as a measure for the policy
-parameters update. This overcomes the drawbacks of actor-only methods in which each update is
+parameters update. The latter overcomes the drawbacks of actor-only methods in which each update is
 independent of previous estimates and the approximate solutions plus some arising issues like
 catastrophic forgetting~\cite{french1999catastrophic} of critic-only approaches.
 
@@ -409,10 +409,11 @@ state, plus the immediate and average reward.
 Therefore, average reward adjusted RL decomposes the discounted state values into its sub-components
 and learns these components separately. This has the advantages of i) being able to find more
 optimal policies, ii) reduces the number of steps in the iterative learning process, iii) prevents
-cluster formations as the average reward is not learned independently for every state and finally iv)
-eases the representation for the approximation of the state function as the state-values are spread
-further apart~\cite{schneckenreither2020average}. However, recall the assumption of unichain MDPs,
-i.e.\@ there must not exist a state which splits the possible consecutive states 
+cluster formations as the average reward is not learned independently for every state and finally
+iv) eases the representation for the approximation of the state function as the state-values are
+spread further apart~\cite{schneckenreither2020average}. However, recall the assumption of unichain
+MDPs, i.e.\@ there must not exist a state which splits all possible consecutive states into at least
+two disjunctive sets of states.
 
 \begin{algorithm}[t!]
   \begin{algorithmic}[1]
@@ -501,8 +502,12 @@ characteristics that describe the input problem. This includes, but is not limit
 rules, number of (root) symbols, maximum function arity, number of strongly connected components,
 left-linearity, right-linearity, flags specifying whether it is a constructor TRS, orthogonality,
 completely defined, etc. The second data input describes the current strategy for the underlying
-sub-problem. This can be done using one natural number per possible method standing for the number
-of sequence operators since the last occurrence of that particular technique.
+sub-problem. This can be done by using one natural number per possible method standing for the
+number of sequence operators since the last occurrence of that particular technique. Furthermore,
+whenever the current strategy is adapted its leaves are sorted to ensure an unichain MDP, i.e.\@ we
+have equivalence of strategies \((s \seq t) \alt (u \seq v)\) and \((u \seq v) \alt (s \seq t)\) for
+instance.
+
 
 \paragraph{Reward Function.} As illustrated in Figure~\ref{fig:schema} the reward function is
 composed of two different reward generation actions, once a new method is added and when the

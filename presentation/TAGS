@@ -1,71 +1,0 @@
-
-figures/grid.tex,270
-  \newcommand\maxX{\maxX3,48
-  \newcommand\maxY{\maxY4,87
-  \newcommand\goalX{\goalX5,126
-  \newcommand\goalY{\goalY6,166
-  \newcommand\maxX{\maxX34,1356
-  \newcommand\maxY{\maxY35,1395
-  \newcommand\goalX{\goalX36,1434
-  \newcommand\goalY{\goalY37,1474
-
-figures/printer.tex,33
-  \newcommand\bend{\bend20,597
-
-figures/grid4.tex,130
-  \newcommand\maxX{\maxX3,48
-  \newcommand\maxY{\maxY4,87
-  \newcommand\goalX{\goalX5,126
-  \newcommand\goalY{\goalY6,166
-
-figures/queuing-system.tex,210
-  \newcommand\maxX{\maxX3,48
-  \newcommand\dist{\dist4,87
-  \newcommand\lastdist{\lastdist5,109
-  \newcommand\short{\short6,135
-  \newcommand\move{\move7,164
-  \newcommand\noarrname{\noarrname8,192
-
-presentation.tex,1988
-\renewcommand\@makefnmark{\@makefnmark14,347
-\renewcommand\@makefntext[1]{\@makefntext[1]15,425
-\newcommand{\cmark}\cmark70,1913
-\newcommand{\xmark}\xmark71,1945
-\newcommand{\SH}\SH73,1978
-\newcommand\MS[2][r]{\MS[2][r]74,2058
-    \stepcounter{footnote}\footnotetext{\cite{schneckenreither2020dynamic}schneckenreither2020dynamic133,3793
-    \stepcounter{footnote}\footnotetext{\cite{landi1992undecidability}landi1992undecidability134,3869
-\section{Discounted Reinforcement Learning}Discounted155,4319
-\label{sec:Discounted_Reinforcement_Learning}sec:Discounted_Reinforcement_Learning156,4363
-  \footnotetext{\cite{MillerVeinott1969}MillerVeinott1969224,7261
-  \footnotetext{Adapted from \cite{Mahadevan96_OptimalityCriteriaInReinforcementLearning}Mahadevan96_OptimalityCriteriaInReinforcementLearning273,8536
-  \only<1-2>{\footnotetext{\cite{MillerVeinott1969}MillerVeinott1969289,9254
-  \only<4->{\footnotetext{\cite{MillerVeinott1969}MillerVeinott1969290,9308
-    \footnotetext{\cite{Puterman94}Puterman94330,10882
-    \footnotetext{\tiny \cite{schneckenreither2020average}schneckenreither2020average378,12610
-\section{Average Reward Adjusted Discounted Reinforcement Learning}Average400,13268
-\label{sec:Average_Reward_Adjusted_Discounted_Reinforcement_Learning}sec:Average_Reward_Adjusted_Discounted_Reinforcement_Learning401,13336
-  \footnotetext{\cite{schneckenreither2020average}schneckenreither2020average459,15722
-  \footnotetext{\cite{schneckenreither2020dynamic}schneckenreither2020dynamic514,17467
-  \footnotetext{\cite{schneckenreither2020dynamic}schneckenreither2020dynamic530,18022
-  \footnotetext{\cite{schneckenreither2020dynamic}schneckenreither2020dynamic551,18590
-\appendix581,19313
-  \footnotetext{\cite{schneckenreither2020dynamic}schneckenreither2020dynamic603,19956
-  \footnotetext{\cite{MillerVeinott1969}MillerVeinott1969673,23028
-    \cite{SchneckenreitherHaeussler2019}SchneckenreitherHaeussler2019704,23829
-
-figures/err.tex,0
-
-figures/three-states2.tex,0
-
-figures/parallel.tex,0
-
-figures/three-states.tex,0
-
-figures/three-states0.tex,0
-
-figures/productionsystem.tex,0
-
-figures/mdpschema.tex,0
-
-figures/binarytree.tex,0

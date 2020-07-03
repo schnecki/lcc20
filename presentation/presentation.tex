@@ -75,20 +75,18 @@
   \else \begin{center}\textcolor{blue}{\textbf{MS:} #2} \end{center} \fi}
 
 
-\title[RL for Dynamic Strategies in \tct{}]{Reinforcement Learning for \newline Dynamic Strategies in \tct{}}
+\title[Dynamic Strategies for \tct{}]{Dynamic Strategies for \tct{}}
 
-\author[Manuel Schneckenreither]{\textbf{Manuel Schneckenreither}
-  \\[1.4ex] \footnotesize (supervised by Prof.\@ Dr.\@ Georg Moser)\\[2ex]
-}
+\author[Manuel Schneckenreither]{\textbf{Manuel Schneckenreither}}
 
-\location[]{CL Seminar}
+\location[LCC 2020]{The Twenty First International Workshop on Logic and Computational Complexity}
 
 % \authorrunning{Schneckenreither and Haeussler}
 \institute{
-  % Department of Information Systems,
-  % Production and Logistics Management,
-  University of Innsbruck, Austria
-  % email: manuel.schneckenreither@uibk.ac.at
+  Department of Computer Science,\\
+  Computational Logic Group,\\
+  University of Innsbruck, Austria\\
+  email: manuel.schneckenreither@uibk.ac.at
 }
 
 \date{Summer 2020}
@@ -108,32 +106,48 @@
   \frametitle{Motivation}
 
   \vspace{-1.5ex}
-  \begin{block}{The Tyrolean Complexity Tool, i.e. \tct{}~\footnotemark}
+  \begin{block}{The Tyrolean Complexity Tool, i.e. \tct{}}
 
     \begin{itemize}
     \item Automatic tool to infer runtime (and derivational) complexity
     \item Allows (first or higher-order) functional programs as generalised form of
       term rewrite systems as input
-    \item In case of success: \tct{} outputs a certification proofing the presented asymptotic complexity
+    \item In case of success: \tct{} outputs an asymptotic complexity and corresponding proof
     \end{itemize}
   \end{block}\pause
-
   \begin{block}{Static Analyses}
     \begin{itemize}
     \item Static analyses are undecidable~\footnotemark{}
-    \item Thus: Some sort of creativity is required (Strategies)
-    \item Idea: Reinforcement learning for dynamic strategies
+    \item Thus: Some sort of creativity is required
     \end{itemize}
   \end{block}
-
-
   \begin{centering}
     \footnotesize
-    \addtocounter{footnote}{-2}
-    \stepcounter{footnote}\footnotetext{\cite{schneckenreither2020dynamic}}
+    \addtocounter{footnote}{-1}
     \stepcounter{footnote}\footnotetext{\cite{landi1992undecidability}}
 
   \end{centering}
+
+\end{frame}
+\begin{frame}[t]
+
+
+  \begin{block}{In \(\tct{}\)}
+    \begin{itemize}
+    \item \(\tct{}\) uses Strategies to define: 
+      \begin{itemize}
+      \item what methods (e.g.\@ poly./matrix interpretations) to use and 
+      \item in which sequence these are used.
+      \end{itemize}
+      \item Currently strategies are predetermined and fixed in \(\tct{}\)
+      \item Idea: Reinforcement learning for dynamic strategies
+        \begin{itemize}
+        \item No training data needed (no predetermined strategies)
+        \item Provides a much larger solution space
+        \item Unexpected good behaviour might be discovered
+        \end{itemize}
+      \end{itemize}
+  \end{block}
 
 
 \end{frame}
@@ -145,8 +159,12 @@
     \vspace{0.2cm}
     \begin{enumerate}
     \item Motivation
-    \item Discounted Reinforcement Learning (Discounted RL)
-    \item Average Reward Adjusted Discounted RL
+      
+    \item Reinforcement Learning
+      \begin{itemize}
+      \item Discounted Reinforcement Learning (Discounted RL)
+      \item Average Reward Adjusted Discounted RL
+      \end{itemize}
     \item Proposed Implementation in \tct{}
     \end{enumerate}
   \end{block}
@@ -188,23 +206,23 @@
           V_{\gamma}^{\pol}(s) = \lim_{N \to \infty} E[\sum_{t=0}^{N-1} \gamma^{t} R_{t}^{\pol}(s)]
         \end{align*}
         where \(R_{t}^{\pol}(s)\) the reward received at time \(t\) upon starting in state \(s\) by following policy \(\pol\). }
-      \only<4->{
-      \item RL in summary: Iteratively solving constraint problems composed of \(\size{\States}\)
-        constraints and \(\size{\States}\) variables, where \(s \in \States\):
-        \vspace{-5pt}
-        \begin{align*}
-          V^\pol_{\gamma}(0) & = 0 + \gamma V^\pol_{\gamma}(1) &  V^\pol_{\gamma}(2) & = 2 + \gamma V^\pol_{\gamma}(1) \\ 
-          \lft\colon V^\pol_{\gamma}(1) & = 2 + \gamma V^\pol_{\gamma}(0) & \rght\colon V^\pol_{\gamma}(1) & = 0 + \gamma V^\pol_{\gamma}(2)
-        \end{align*}
-        % \only<8->{
-        % \vspace{-1.1cm}
-        % \begin{align*}
-            %             \only<8-8>{\pol(1) = (p_{1}, p_{2})\colon}
-            %     %             \only<8->{p_{1}a_{1} + p_{2}a_{2}\colon}
-            %             & V^\pol_{\gamma}(1) = p_{1}(2 + \gamma V^\pol_{\gamma}(0)) + p_{2}(0 + \gamma V^\pol_{\gamma}(2))
-                            %           \end{align*}
-                            %                             }
-      }
+      % \only<4->{
+      % \item RL in summary: Iteratively solving constraint problems composed of \(\size{\States}\)
+      %   constraints and \(\size{\States}\) variables, where \(s \in \States\):
+      %   \vspace{-5pt}
+      %   \begin{align*}
+      %     V^\pol_{\gamma}(0) & = 0 + \gamma V^\pol_{\gamma}(1) &  V^\pol_{\gamma}(2) & = 2 + \gamma V^\pol_{\gamma}(1) \\
+      %     \lft\colon V^\pol_{\gamma}(1) & = 2 + \gamma V^\pol_{\gamma}(0) & \rght\colon V^\pol_{\gamma}(1) & = 0 + \gamma V^\pol_{\gamma}(2)
+      %   \end{align*}
+      %   % \only<8->{
+      %   % \vspace{-1.1cm}
+      %   % \begin{align*}
+      %       %             \only<8-8>{\pol(1) = (p_{1}, p_{2})\colon}
+      %       %     %             \only<8->{p_{1}a_{1} + p_{2}a_{2}\colon}
+      %       %             & V^\pol_{\gamma}(1) = p_{1}(2 + \gamma V^\pol_{\gamma}(0)) + p_{2}(0 + \gamma V^\pol_{\gamma}(2))
+      %                       %           \end{align*}
+      %                       %                             }
+      % }
     \end{itemize}
   \end{block}
   \only<2-2>{
@@ -213,12 +231,12 @@
       \footnotesize (\(\expSmth{\alpha}\) is exp.\@ smoothed updating with rate \(\alpha\))
     \end{minipage}
   }
-  \only<4->{
-    \begin{minipage}{\textwidth}
-      \centering
-      \footnotesize (\(\size{\cdot}\) is the size of a set)
-    \end{minipage}
-  }
+  % \only<4->{
+  %   \begin{minipage}{\textwidth}
+  %     \centering
+  %     \footnotesize (\(\size{\cdot}\) is the size of a set)
+  %   \end{minipage}
+  % }
 
   % Citations
   \footnotetext{\cite{MillerVeinott1969}}
@@ -241,37 +259,13 @@
     \item This criteria: discounted-optimality % (\(\gamma\)-optimality)
       as \(\gamma\) is \alert{fixed}
     \end{itemize}
+  \end{block}\pause
 
+  \begin{block}{}
+    \centering
+    \alert{The higher \(\gamma\) the more optimal are the solutions.}\\[1.5ex] \pause
+    Usual values: \(\gamma \geqslant  0.99\)
   \end{block}
-
-
-\end{frame}
-
-\begin{frame}[t]
-
-  % \frametitle{Example}
-  \begin{block}{The issue of discounted-optimality illustrated~\footnotemark}
-
-    \begin{figure}[t!]
-      \centering
-      \input{figures/printer}
-    \end{figure}
-    \begin{itemize}
-
-      % \only<1-1>{\item Assume that the agent has \(\infty\) time}
-      \only<1->{\item Average reward received is
-        \begin{itemize}
-        \item \(1\) for the printer-loop
-        \item \(2\) for the mail-loop
-        \end{itemize}
-        \only<2->{\item BUT\@: if \(\gamma < 3^{-\frac{1}{5}} \approx 0.8027\) the agent prefers the printer loop}}
-    \end{itemize}
-
-
-  \end{block}
-
-  \footnotetext{Adapted from \cite{Mahadevan96_OptimalityCriteriaInReinforcementLearning}}
-
 \end{frame}
 
 \begin{frame}[t]
@@ -402,7 +396,7 @@
 
 
 \begin{frame}[t]
-  \frametitle{Average Reward Adjusted Reinforcement Learning}
+  \frametitle{Average Reward Adjusted Reinforcement Learning~\footnotemark[4]}
 
   \begin{block}{Basic Idea}
     Separately assessing
@@ -416,11 +410,13 @@
     \vspace{-2ex}
     \begin{align*}
       \avgrew^{\pol}  & \expSmth{\alpha} r_{t} + V^\pol(s_{t+1}) - V^\pol(s_{t})\\
-      V^\pol(s_{t}) & \expSmth{\beta} r_{t} + \gamma_{1} V^\pol(s_{t+1}) - \avgrew^{\pol}
+      V^\pol(s_{t}) & \expSmth{\beta} r_{t} + \gamma V^\pol(s_{t+1}) - \avgrew^{\pol}
     \end{align*}
-    Note: We can set \(\gamma_{1} = 1\) here, as the subtraction of the average reward bounds the
+    Note: We can set \(\gamma = 1\) here, as the subtraction of the average reward bounds the
     state values.
   \end{block}
+
+  \footnotetext[4]{\tiny \cite{schneckenreither2020average}}
 \end{frame}
 
 
@@ -437,9 +433,9 @@
       % \cmidrule(r){2-3} \cmidrule(l){4-5}
       % Algorithm & Mean & Mean\\
       \midrule
-      \ARA{} \(\gamma_1=0.99\)  & \cellcolor{gr}\(\textbf{51894.094}\) & & \(\textbf{5.039}\)\\
-      \ARA{} \(\gamma_1=0.999\) & \cellcolor{gr}\(51878.069\)          & & \cellcolor{gr}\(5.063\)\\
-      \ARA{} \(\gamma_1=1.00\)  & \cellcolor{gr}\(51856.529\)          & & \cellcolor{gr}\(5.055\)\\
+      \ARA{} \(\gamma=0.99\)  & \cellcolor{gr}\(\textbf{51894.094}\) & & \(\textbf{5.039}\)\\
+      \ARA{} \(\gamma=0.999\) & \cellcolor{gr}\(51878.069\)          & & \cellcolor{gr}\(5.063\)\\
+      \ARA{} \(\gamma=1.00\)  & \cellcolor{gr}\(51856.529\)          & & \cellcolor{gr}\(5.055\)\\
       \hhline{|~|-|~|-|}
       \QL{}  \(\gamma=0.99\)  & \cellcolor{gr2}\(34409.464\)         & & \cellcolor{gr2}\(7661.833\)  \\
       \QL{}  \(\gamma=0.999\) & \cellcolor{gr2}\(33931.917\)         & & \cellcolor{gr2}\(7379.155\) \\
@@ -456,7 +452,7 @@
             %             \caption{\label{tbl:grid} The results of the gridworld example, where all \ARA{} instances
             %             inferred an average reward of \(\avgrew^{\pol}=5.215\)}
   \end{block}
-  \footnotetext{\cite{schneckenreither2020average}}
+  \footnotetext{\tiny \cite{schneckenreither2020average}}
 \end{frame}
 
 
@@ -466,68 +462,67 @@
   \begin{block}{More Insights} Average Reward Adjusted Reinforcement Learning \(\ldots\)
     \begin{enumerate}
     \item requires fewer number of learning steps
-    \item allows more natural specification of reward function (continuous feedback), which helps
-      to
-      \begin{itemize}
-      \item find the goal
-      \item distinguish between good and bad sequences of actions \only<2-2>{
-          \begin{minipage}{0.7\textwidth} \centering
-            \includegraphics[width=0.5\textwidth]{figures/mountaincar.png}\\ {\tiny Source:
-              https://gym.openai.com/}
-          \end{minipage} }
-      \end{itemize}
+    \item allows specifying continuous feedback
     \end{enumerate}
   \end{block}
 \end{frame}
 
-\begin{frame}[t]
-  \frametitle{Average Reward Adjusted Reinforcement Learning}
-
-  \begin{block}{More Insights (cont'd)}
-    Average Reward Adjusted Reinforcement Learning \(\ldots\)
-    \begin{enumerate}
-    \item[3.] state values are easier to interpret
-    \item[4.] normed state values have a higher spread
-      \begin{itemize}
-      \item important when approximating the state-value function (ANN)
-      \end{itemize}
-    \end{enumerate}
-  \end{block}
-\end{frame}
-
-
-% \section{Proposed Implementation in \tct{}}
+\section{Proposed Implementation in \tct{}}
 
 
 \begin{frame}
   \frametitle{Implementation in \tct{}}
 
-  \begin{block}{Process Schema~\footnotemark}
+  \begin{block}{Process Schema}
     \centering
     \resizebox{0.9\linewidth}{!}{\input{figures/mdpschema.tex}}
     \begin{itemize}
     \item Starting strategy: identity
-    \item Strategy operators: Sequencing \(\seq\) and alternative \(\alter\)
-    \item Two agents: decomposition and complexity analyser
+    \item Strategy combinators: Alternative and Sequence
+    % \item Two agents: decomposition and complexity analyser
+
+    % \item Note: Continuous feedback (\textsf{Progress reward})
+    % \item Required: Exponential growth of solution space (continuous and faster learning)
     \end{itemize}
   \end{block}
-  \footnotetext{\cite{schneckenreither2020dynamic}}
+  % \footnotetext{\cite{schneckenreither2020dynamic}}
 \end{frame}
 
 \begin{frame}
   \frametitle{Implementation in \tct{}}
 
-  \begin{block}{Binary Strategy Tree~\footnotemark}
+  \begin{block}{Process Schema}
+    \centering
+    \resizebox{0.9\linewidth}{!}{\input{figures/mdpschema.tex}}
+    \begin{itemize}
+    % \item Starting strategy: identity
+    % \item Strategy combinators: Alternative and Sequence
+    \item Note: Continuous feedback (\textsf{Progress reward})
+    \item Required: Exponential growth of solution space (continuous and faster learning)
+    % \item Strategy operators: Sequencing \(\seq\) and alternative \(\alter\)
+    % \item Two agents: decomposition and complexity analyser
+    \end{itemize}
+  \end{block}
+  % \footnotetext{\cite{schneckenreither2020dynamic}}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Implementation in \tct{}}
+
+  \begin{block}{Binary Strategy Tree% ~\footnotemark
+    }
     \centering
     \resizebox{0.8\linewidth}{!}{\input{figures/binarytree.tex}}
     \begin{itemize}
     \item No ambiguity by enforcing right-associativity of \(\alter\)
-      % Starting strategy: identity
-      % \item Strategy operators: Sequencing \(\seq\) and alternative \(\alter\)
-      % \item Two agents: decomposition and complexity analyser
+    \item Sorting of leaves on change of strategy:
+              \vspace{-1ex}
+      \begin{align*}
+      (s \seq t) \alter (u \seq v) \equiv  (u \seq v) \alter (s \seq t)
+      \end{align*}
     \end{itemize}
   \end{block}
-  \footnotetext{\cite{schneckenreither2020dynamic}}
+  % \footnotetext{\cite{schneckenreither2020dynamic}}
 \end{frame}
 
 
@@ -541,53 +536,24 @@
       \item number of rules
       \item number of (root) symbols
       \item left-linearity, right-linearity
+      \item SCC (recursion and size of argument in recursive call)
+      \item branching degree
+      \item \(\ldots\)
       \end{itemize}
-    \item Representation of current strategy 
+    \item Representation of current strategy
       \begin{itemize}
       \item Counter specifying steps until last occurrence of concrete method
       \end{itemize}
     \end{itemize}
   \end{block}
-  \footnotetext{\cite{schneckenreither2020dynamic}}
-\end{frame}
-
-\begin{frame}
-  \frametitle{Conclusion}
-
-  \begin{block}{Summary}
-    \begin{itemize}
-    \item Discounted Reinforcement Learning
-    \item Average Reward Adjusted Discounted Reinforcement Learning
-    \item Implementation Idea for Dynamic Strategies in \tct{}
-    \end{itemize}
-  \end{block}\pause
-
-  % \begin{block}{Reality...}
-  %   \begin{itemize}
-  %   \item Algorithm is more complex, e.g.\@ incorporates the error term
-  %   \item Artificial Neural Network (ANN) to approximate value function
-  %   \item \(\ldots\)
-  %   \end{itemize}
-  % \end{block}
-  
-  \begin{block}{}
-    \centering
-    Thank you for your attention!
-  \end{block}
-
-
-\end{frame}
-
-\appendix
-
-\begin{frame}
-
+  % \footnotetext{\cite{schneckenreither2020dynamic}}
 \end{frame}
 
 \begin{frame}
   \frametitle{Implementation in \tct{}}
 
-  \begin{block}{Reward Function~\footnotemark}
+  \begin{block}{Reward Function% ~\footnotemark
+    } 
     Assume current strategy \(s_{t}\) at step \(t\), a timeout of \(T\) seconds, a measured
     execution time of \(t' \leqslant T\) seconds and resulting polynomial complexity \(C\):
     \begin{align*}
@@ -600,7 +566,105 @@
     where \(P_{\max{}}\) is the maximum polynomial degree being considered.
   \end{block}
 
-  \footnotetext{\cite{schneckenreither2020dynamic}}
+  % \footnotetext{\cite{schneckenreither2020dynamic}}
+\end{frame}
+
+
+% \begin{frame}
+%   \frametitle{Conclusion}
+
+%   \begin{block}{Summary}
+%     \begin{itemize}
+%     \item Discounted Reinforcement Learning
+%     \item Average Reward Adjusted Discounted Reinforcement Learning
+%     \item Implementation Idea for Dynamic Strategies in \tct{}
+%     \end{itemize}
+%   \end{block}% \pause
+
+%   % \begin{block}{Reality...}
+%   %   \begin{itemize}
+%   %   \item Algorithm is more complex, e.g.\@ incorporates the error term
+%   %   \item Artificial Neural Network (ANN) to approximate value function
+%   %   \item \(\ldots\)
+%   %   \end{itemize}
+%   % \end{block}
+
+%   % \begin{block}{}
+%   %   \centering
+%   %   Thank you for your attention!
+%   % \end{block}
+
+
+% \end{frame}
+
+\begin{frame}
+  \frametitle{Outlook}
+  
+  \begin{block}{Reality everything is more complex}
+    \begin{itemize}
+    \item Algorithm is more complex, e.g.\@ incorporates the error term
+    \item Artificial Neural Network (ANN) to approximate value function
+    \item More strategy combinators than just \(\alter\) and \(\seq\) 
+    \item \(\ldots\)
+    \end{itemize}\pause
+  \end{block}
+
+  \begin{block}{Current State (+ Expert info)}
+  \begin{itemize}
+  \item Implemented to work with ANN (critic-only, experience replay memory, target+worker ANN, \(\ldots\))
+  \item We aim for an actor-critic approach (policy and value iteration)
+  \item We plan to use a DB for caching (certain) I/O tuples 
+  \item Many open questions, as we are coding it right now
+  \end{itemize}\pause
+
+  \end{block}
+
+\end{frame}
+
+\begin{frame}
+  \vspace{2.5cm}
+  \begin{block}{}
+    \centering
+    Thank you for your attention. 
+  \end{block}
+  \begin{center}
+    Let's discuss. \\I am glad for any feedback, ideas or issues you have or see!
+  \end{center}
+
+\end{frame}
+
+\appendix
+
+\begin{frame}
+
+\end{frame}
+
+
+\begin{frame}[t]
+
+  % \frametitle{Example}
+  \begin{block}{The issue of discounted-optimality illustrated~\footnotemark}
+
+    \begin{figure}[t!]
+      \centering
+      \input{figures/printer}
+    \end{figure}
+    \begin{itemize}
+
+      % \only<1-1>{\item Assume that the agent has \(\infty\) time}
+      \only<1->{\item Average reward received is
+        \begin{itemize}
+        \item \(1\) for the printer-loop
+        \item \(2\) for the mail-loop
+        \end{itemize}
+        \only<2->{\item BUT\@: if \(\gamma < 3^{-\frac{1}{5}} \approx 0.8027\) the agent prefers the printer loop}}
+    \end{itemize}
+
+
+  \end{block}
+
+  \footnotetext{Adapted from \cite{Mahadevan96_OptimalityCriteriaInReinforcementLearning}}
+
 \end{frame}
 
 
@@ -616,7 +680,7 @@
 
     \begin{itemize}
       \item Based on dynamic programming: states, actions, rewards
-      \item Markov Prop.: transitions with probability \(p(s_{t+1}, r_{t} \mid s_{t}, a_{t})\) 
+      \item Markov Prop.: transitions with probability \(p(s_{t+1}, r_{t} \mid s_{t}, a_{t})\)
       \item RL processes: \textit{Markov decision processes} (MDPs)
     \end{itemize}
   %     \only<4-5>{
@@ -860,7 +924,7 @@
 %     \begin{definition}
 %       Due to \footnotemark{} a policy \(\polopt\) is \alert{\(n\)-discount-optimal} for
 %       \(n=-1,0,1,\ldots\) for all states \(s \in \States\) with discount factor \(\gamma\)
-%     %       
+%     %
 %       if and only if
 %       \begin{align*}
 %         \lim_{\gamma \to 1}(1-\gamma)^{-n}\ (V_{\gamma}^{\polopt}(s) - V_{\gamma}^{\pol}(s)) \geqslant 0 \tpkt
@@ -1125,7 +1189,7 @@
 %   \end{frame}
 
 
-% % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   
+% % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 %   \section{Order Release with Average Reward Reinforcement Learning}
