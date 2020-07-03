@@ -48,13 +48,29 @@
  pdflang={English}}
 \date{\today}
 
+% ORCID
+\definecolor{lime}{HTML}{A6CE39}
+\DeclareRobustCommand{\orcidicon}{
+	\begin{tikzpicture}
+	\draw[lime, fill=lime] (0,0) 
+	circle [radius=0.16] 
+	node[white] {{\fontfamily{qag}\selectfont \tiny ID}};
+	\draw[white, fill=white] (-0.0625,0.095) 
+	circle [radius=0.007];
+	\end{tikzpicture}
+	\hspace{-2mm}
+}
+\foreach \x in {A, ..., Z}{\expandafter\xdef\csname
+  orcid\x\endcsname{\noexpand\href{https://orcid.org/\csname orcidauthor\x\endcsname}
+    {\noexpand\orcidicon}}
+}
+\newcommand{\orcidauthorA}{0000-0002-4812-4665} % For author A  
+% ORCID END
 
 \title{
   \Title
 }
-\author{\Author% \inst{1}
-  % \href{https://orcid.org/0000-0000-0000-0000}{\aiOrcid \hspace{2mm} orcid.org/0000-0000-0000-0000}
-  \orcidID{0000-0002-4812-4665}
+\author{\Author{}\orcidA{}% \inst{1}
 }
 % \authorrunning{Schneckenreither and Haeussler}
 \institute{
